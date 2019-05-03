@@ -1,0 +1,11 @@
+id: WB
+contact_email: "help@wormbase.org"
+project_url: "http://www.wormbase.org"
+datasets:
+  -
+    id: wb.gaf
+    filename: wb.gaf.gz
+    url: http://current.geneontology.org/annotations/wb.gaf.gz
+    type: gaf
+    compression: gzip
+    status: active

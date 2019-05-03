@@ -1,0 +1,11 @@
+id: FB
+contact_email: "helpfb@morgan.harvard.edu"
+project_url: "http://www.flybase.org"
+datasets:
+  -
+    id: gene_association.fb
+    filename: gene_association.fb.gz
+    url: ftp://ftp.flybase.net/releases/current/precomputed_files/go/gene_association.fb.gz
+    type: gaf
+    compression: gzip
+    status: active
