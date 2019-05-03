@@ -43,12 +43,9 @@ class FileManager(object):
             if validation_results is True:
                 logger.info('Config file validation successful for {}.'.format(filename))
             else:
-                logger.critical('Config file validation unsuccessful for {}.'.format(filename))
                 for field, values in validator.errors.items():
-                    for value in values: # May have more than one error per field.
-                        message = field + ': ' + value
-                        logger.critical(message)
-                logger.critical('Exiting')
+                    logger.critical('Critical error in validation for field: {}.'.format(field))
+                    logger.critical(values)
                 sys.exit(-1)
 
             self.Combined_list_of_dicts.append(config_data)

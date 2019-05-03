@@ -12,3 +12,27 @@ project_url:
 datasets:
   type: list
   required: True
+  schema:
+    type: dict
+    schema:
+      id: 
+        type: string
+        required: True
+      filename:
+        type: string
+        required: True
+      url:
+        type: string
+        required: True
+      type:
+        type: string
+        required: True
+      compression:
+        type: string
+        required: True
+        allowed: [gzip]
+      status:
+        type: string
+        required: True
+        allowed: [active, inactive]
+      
