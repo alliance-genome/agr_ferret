@@ -25,7 +25,7 @@ args = parser.parse_args()
 files_to_read = None
 
 if args.files is None:
-    files_to_read = glob.glob(os.path.join('dataset', '*.yaml'))
+    files_to_read = glob.glob(os.path.join('datasets', '*.yaml'))
 else:
     files_to_read = []
     for entry in args.files:
@@ -85,16 +85,18 @@ def process_files(dataset):
     if dataset['status'] == 'active':
         download_http(process_name, url, filename, savepath)
         decompress(process_name, filename, savepath)
-
+        # Logic for uploading to chipmunk goes here.
 
 class ProcessManager(object):
 
-    def __init__(self, process_count, dataset_info):
+    def __init__(self, process_count, dataset_info, emails):
         self.dataset_info = dataset_info # Datasets with downloadable information.
         self.process_count = process_count # Number of processes to create.
+        self.emails = emails # List of email accounts to notify on failure.
 
     def worker_error(self, e):
         # If we encounter an Exception from one of our workers, terminate the pool and exit immediately.
+        # TODO Put email logic here.
         self.pool.terminate()
         logger.error(e)
 
@@ -105,9 +107,14 @@ class ProcessManager(object):
         self.pool.join()
 
 def main():
+    # Load config file values.
+    config_file = open('config.yaml', 'r')
+    config = yaml.load(config_file, Loader=yaml.FullLoader)
+    logger.info('Retrieval errors will be emailed to: {}'.format(config['notification_emails']))
+
     dataset_info = FileManager().return_datasets()
 
-    ProcessManager(5, dataset_info).start_processes()
+    ProcessManager(config['threads'], dataset_info, config['notification_emails']).start_processes()
 
 if __name__ == '__main__':
     main()
