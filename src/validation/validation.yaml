@@ -1,0 +1,14 @@
+id:
+  type: string
+  required: True
+  allowed: [FB, WB]
+contact_email:
+  type: string
+  required: True
+  regex: ^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$
+project_url:
+  type: string
+  required: True
+datasets:
+  type: list
+  required: True

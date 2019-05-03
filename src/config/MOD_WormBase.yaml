@@ -1,6 +1,6 @@
 id: WB
-contact_email: "help@wormbase.org"
-project_url: "http://www.wormbase.org"
+contact_email: help@wormbase.org
+project_url: http://www.wormbase.org
 datasets:
   -
     id: wb.gaf

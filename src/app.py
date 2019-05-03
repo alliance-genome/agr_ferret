@@ -3,8 +3,7 @@ import multiprocessing, time, glob
 from collections import defaultdict
 from download import *
 from compression import *
-
-# from cerberus import Validator
+from cerberus import Validator
 
 coloredlogs.install(level=logging.DEBUG,
                     fmt='%(asctime)s %(levelname)s: %(name)s:%(lineno)d: %(message)s',
@@ -22,13 +21,36 @@ class FileManager(object):
     
     def __init__(self, config_file_dir):
         self.Combined_list_of_dicts = []
+        self.validation_schema = None
 
-        # Loading yaml(s).
-        logger.info('Loading yaml file(s): %s' % config_file_dir)
+        # Load validation schema.
+        validation_yaml_file_loc = os.path.abspath('validation/validation.yaml')
+        logger.debug('Loading validation schema: {}'.format(validation_yaml_file_loc))
+        validation_schema_file = open(validation_yaml_file_loc, 'r')
+        self.validation_schema = yaml.load(validation_schema_file, Loader=yaml.SafeLoader)
+
+        validator = Validator(self.validation_schema)
+
+        # Load and validate yaml(s).
         for filename in glob.glob(os.path.join(config_file_dir, '*.yaml')):
             config_file = open(filename, 'r')
             config_data = yaml.load(config_file, Loader=yaml.FullLoader)
-            logger.debug("Loaded yaml data: %s" % config_data)
+            logger.debug("Loaded yaml data: {}".format(filename))
+
+            logger.info("Validating yaml file.")
+            validation_results = validator.validate(config_data)
+
+            if validation_results is True:
+                logger.info('Config file validation successful for {}.'.format(filename))
+            else:
+                logger.critical('Config file validation unsuccessful for {}.'.format(filename))
+                for field, values in validator.errors.items():
+                    for value in values: # May have more than one error per field.
+                        message = field + ': ' + value
+                        logger.critical(message)
+                logger.critical('Exiting')
+                sys.exit(-1)
+
             self.Combined_list_of_dicts.append(config_data)
 
     def return_all_config_data(self):

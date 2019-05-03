@@ -1,6 +1,6 @@
 id: FB
-contact_email: "helpfb@morgan.harvard.edu"
-project_url: "http://www.flybase.org"
+contact_email: helpfb@morgan.harvard.edu
+project_url: http://www.flybase.org
 datasets:
   -
     id: gene_association.fb
