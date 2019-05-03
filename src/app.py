@@ -25,7 +25,7 @@ args = parser.parse_args()
 files_to_read = None
 
 if args.files is None:
-    files_to_read = glob.glob(os.path.join('config', '*.yaml'))
+    files_to_read = glob.glob(os.path.join('dataset', '*.yaml'))
 else:
     files_to_read = []
     for entry in args.files:
@@ -47,24 +47,24 @@ class FileManager(object):
 
         # Load and validate yaml(s).
         for filename in files_to_read:
-            config_file = open(filename, 'r')
-            config_data = yaml.load(config_file, Loader=yaml.FullLoader)
+            dataset_file = open(filename, 'r')
+            dataset_data = yaml.load(dataset_file, Loader=yaml.FullLoader)
             logger.debug("Loaded yaml data: {}".format(filename))
 
             logger.info("Validating yaml file: {}".format(filename))
-            validation_results = validator.validate(config_data)
+            validation_results = validator.validate(dataset_data)
 
             if validation_results is True:
-                logger.info('Config file validation successful.')
+                logger.info('Dataset file validation successful.')
             else:
                 for field, values in validator.errors.items():
                     logger.critical('Critical error in validation for field: {}.'.format(field))
                     logger.critical(values)
                 sys.exit(-1)
 
-            self.Combined_list_of_dicts.append(config_data)
+            self.Combined_list_of_dicts.append(dataset_data)
 
-    def return_all_config_data(self):
+    def return_all_dataset_data(self):
         return  self.Combined_list_of_dicts
 
     def return_datasets(self):
