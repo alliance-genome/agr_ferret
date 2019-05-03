@@ -1,5 +1,5 @@
 import logging, coloredlogs, yaml, os, sys, json, urllib3, requests, time, random
-import multiprocessing, time, glob
+import multiprocessing, time, glob, argparse, itertools
 from collections import defaultdict
 from download import *
 from compression import *
@@ -17,9 +17,23 @@ coloredlogs.install(level=logging.DEBUG,
 
 logger = logging.getLogger(__name__)
 
+parser = argparse.ArgumentParser()
+parser.add_argument("-f", "--files", type=argparse.FileType('r'), nargs='*', 
+help="Path to files to parse, accepts * as wildcard for filenames")
+
+args = parser.parse_args()
+files_to_read = None
+
+if args.files is None:
+    files_to_read = glob.glob(os.path.join('config', '*.yaml'))
+else:
+    files_to_read = []
+    for entry in args.files:
+        files_to_read.append(entry.name)
+
 class FileManager(object):
     
-    def __init__(self, config_file_dir):
+    def __init__(self):
         self.Combined_list_of_dicts = []
         self.validation_schema = None
 
@@ -32,16 +46,16 @@ class FileManager(object):
         validator = Validator(self.validation_schema)
 
         # Load and validate yaml(s).
-        for filename in glob.glob(os.path.join(config_file_dir, '*.yaml')):
+        for filename in files_to_read:
             config_file = open(filename, 'r')
             config_data = yaml.load(config_file, Loader=yaml.FullLoader)
             logger.debug("Loaded yaml data: {}".format(filename))
 
-            logger.info("Validating yaml file.")
+            logger.info("Validating yaml file: {}".format(filename))
             validation_results = validator.validate(config_data)
 
             if validation_results is True:
-                logger.info('Config file validation successful for {}.'.format(filename))
+                logger.info('Config file validation successful.')
             else:
                 for field, values in validator.errors.items():
                     logger.critical('Critical error in validation for field: {}.'.format(field))
@@ -91,7 +105,7 @@ class ProcessManager(object):
         self.pool.join()
 
 def main():
-    dataset_info = FileManager('config').return_datasets()
+    dataset_info = FileManager().return_datasets()
 
     ProcessManager(5, dataset_info).start_processes()
 
