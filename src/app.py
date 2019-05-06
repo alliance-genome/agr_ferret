@@ -1,5 +1,6 @@
 import logging, coloredlogs, yaml, os, sys, json, urllib3, requests, time, random
 import multiprocessing, time, glob, argparse, itertools
+from retry.api import retry_call
 from collections import defaultdict
 from download import *
 from compression import *
@@ -74,17 +75,34 @@ class FileManager(object):
                 dataset_list.append(dataset)
         return dataset_list
 
-def process_files(dataset):
+def process_files(dataset, shared_list, finished_list):
     process_name = multiprocessing.current_process().name
     url = dataset['url']
+    destination = dataset['destination']
     filename = dataset['filename']
     savepath = 'files'
 
     logger.debug('{} is processing {}'.format(process_name, dataset))
     
     if dataset['status'] == 'active':
-        download_http(process_name, url, filename, savepath)
-        decompress(process_name, filename, savepath)
+        if url not in shared_list and url not in finished_list:
+            shared_list.append(url)
+            download_http(process_name, url, filename, savepath)
+            shared_list.remove(url)
+            decompress(process_name, filename, savepath)
+            finished_list.append(url)
+        elif url in finished_list:
+            logger.info('{}: URL already downloaded via another process: {}'.format(process_name, url))
+        elif url in shared_list:
+            logger.info('{}: URL already downloading via another process: {}'.format(process_name, url))
+            logger.info('{}: Waiting for other process\'s download to finish.'.format(process_name))
+            while url not in finished_list:
+                time.sleep(1)
+
+        # def upload_alliance(worker, url, filename, savepath):
+
+        upload_alliance()
+        
         # Logic for uploading to chipmunk goes here.
 
 class ProcessManager(object):
@@ -101,20 +119,48 @@ class ProcessManager(object):
         logger.error(e)
 
     def start_processes(self):
+        manager = multiprocessing.Manager()
+        shared_list = manager.list() # A shared list to track downloading URLs.
+        finished_list = manager.list() # A shared list of finished URLs.
+
         self.pool = multiprocessing.Pool(processes=self.process_count) # Create our pool.
-        [self.pool.apply_async(process_files, (x,), error_callback=self.worker_error) for x in self.dataset_info]
+        [self.pool.apply_async(process_files, (x, shared_list, finished_list), error_callback=self.worker_error) for x in self.dataset_info]
         self.pool.close()
         self.pool.join()
 
+class Singleton(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if (cls, args, frozenset(kwargs.items())) not in cls._instances:
+            cls._instances[(cls, args, frozenset(kwargs.items()))] = super(Singleton, cls).__call__(*args, **kwargs)
+        return cls._instances[(cls, args, frozenset(kwargs.items()))]
+
+# Common configuration variables used throughout the script.
+class ContextInfo(metaclass=Singleton):
+    def __init__(self):
+        # Load config file values from file.
+        config_file = open('config.yaml', 'r')
+        self.config = yaml.load(config_file, Loader=yaml.FullLoader)
+
+        # Look for ENV variables to replace default variables from config file.
+        for key in self.config.keys():
+            try: 
+                self.config[key] = os.environ[key]
+            except KeyError:
+                pass # If we don't find an ENV variable, keep the value from the config file.
+        
+        logger.debug('Initialized with config values: {}'.format(self.config))
+        logger.info('Retrieval errors will be emailed to: {}'.format(self.config['notification_emails']))            
+
 def main():
-    # Load config file values.
-    config_file = open('config.yaml', 'r')
-    config = yaml.load(config_file, Loader=yaml.FullLoader)
-    logger.info('Retrieval errors will be emailed to: {}'.format(config['notification_emails']))
 
-    dataset_info = FileManager().return_datasets()
+    context_info = ContextInfo() # Initialize our configuration values.
 
-    ProcessManager(config['threads'], dataset_info, config['notification_emails']).start_processes()
+    dataset_info = FileManager().return_datasets() # Initialize our datasets from the dataset files.
+
+    # Begin processing datasets with the ProcessManager.
+    ProcessManager(context_info.config['threads'], dataset_info, context_info.config['notification_emails']).start_processes()
 
 if __name__ == '__main__':
     main()

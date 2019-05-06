@@ -1,2 +1,7 @@
+# Notification and performance.
 notification_emails: [test@test.com, test2@test.com]
 threads: 5
+
+# Default environmental variables.
+API_KEY: # Defaults to "None" if it cannot be found in the environment.
+FMS_URL: fmsdev.alliancegenome.org
