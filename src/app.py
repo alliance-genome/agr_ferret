@@ -1,8 +1,9 @@
-import logging, coloredlogs, yaml, os, sys, json, urllib3, requests, time, random
+import logging, coloredlogs, yaml, os, sys, json, urllib3, requests, time, random, hashlib
 import multiprocessing, time, glob, argparse, itertools
 from retry.api import retry_call
 from collections import defaultdict
 from download import *
+from upload import *
 from compression import *
 from cerberus import Validator
 
@@ -16,6 +17,7 @@ coloredlogs.install(level=logging.DEBUG,
                             'programname': {'color': 'cyan'}
                     })
 
+logging.getLogger("urllib3").setLevel(logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 parser = argparse.ArgumentParser()
@@ -78,18 +80,19 @@ class FileManager(object):
 def process_files(dataset, shared_list, finished_list):
     process_name = multiprocessing.current_process().name
     url = dataset['url']
-    destination = dataset['destination']
+    data_type = dataset['type']
+    data_sub_type = dataset['subtype']
     filename = dataset['filename']
-    savepath = 'files'
+    save_path = 'files'
 
     logger.debug('{} is processing {}'.format(process_name, dataset))
     
     if dataset['status'] == 'active':
         if url not in shared_list and url not in finished_list:
             shared_list.append(url)
-            download_http(process_name, url, filename, savepath)
+            download(process_name, url, filename, save_path)
             shared_list.remove(url)
-            decompress(process_name, filename, savepath)
+            decompress(process_name, filename, save_path)
             finished_list.append(url)
         elif url in finished_list:
             logger.info('{}: URL already downloaded via another process: {}'.format(process_name, url))
@@ -99,12 +102,17 @@ def process_files(dataset, shared_list, finished_list):
             while url not in finished_list:
                 time.sleep(1)
 
-        # def upload_alliance(worker, url, filename, savepath):
+        # Generate md5
+        logger.info('{}: Generating md5 hash for {}.'.format(process_name, filename))
+        hash_md5 = hashlib.md5()
+        with open(save_path + '/' + filename, 'rb') as f:
+            for chunk in iter(lambda: f.read(4096), b''):
+                hash_md5.update(chunk)
+        logger.info('{}: Finished generating md5 hash: {}'.format(process_name, hash_md5.hexdigest()))
+            
 
-        upload_alliance()
+        upload_alliance(process_name, filename, save_path, data_type, data_sub_type, hash_md5)
         
-        # Logic for uploading to chipmunk goes here.
-
 class ProcessManager(object):
 
     def __init__(self, process_count, dataset_info, emails):

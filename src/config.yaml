@@ -1,7 +1,8 @@
-# Notification and performance.
+# Settings used throughout the script.
 notification_emails: [test@test.com, test2@test.com]
 threads: 5
+schema: 1.0.0.8
 
 # Default environmental variables.
 API_KEY: # Defaults to "None" if it cannot be found in the environment.
-FMS_URL: fmsdev.alliancegenome.org
+FMS_URL: https://fmsdev.alliancegenome.org/api/data/submit

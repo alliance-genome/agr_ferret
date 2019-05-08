@@ -24,15 +24,23 @@ datasets:
       url:
         type: string
         required: True
-      type:
+      filetype:
         type: string
         required: True
       compression:
         type: string
-        required: True
+        required: False
         allowed: [gzip]
       status:
         type: string
         required: True
         allowed: [active, inactive]
+      type:
+        type: string
+        required: True
+        allowed: [BGI]
+      subtype: 
+        type: string
+        required: True
+        allowed: [FB]
       

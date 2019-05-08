@@ -3,9 +3,10 @@ contact_email: helpfb@morgan.harvard.edu
 project_url: http://www.flybase.org
 datasets:
   -
-    id: gene_association.fb
-    filename: gene_association.fb.gz
-    url: ftp://ftp.flybase.net/releases/current/precomputed_files/go/gene_association.fb.gz
-    type: gaf
-    compression: gzip
+    id: FB_1.0.0.8_BGI.json
+    filename: FB_1.0.0.8_BGI.json
+    url: ftp://ftp.flybase.org/flybase/associated_files/FB_1.0.0.8_BGI.json
+    filetype: json
+    type: BGI
+    subtype: FB
     status: active
