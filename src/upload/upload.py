@@ -15,6 +15,8 @@ def upload_alliance(worker, filename, save_path, data_type, data_sub_type, hash_
     schema = context_info.config['schema']
     upload_file_prefix = '{}_{}_{}'.format(schema, data_type, data_sub_type)
 
+    # TODO hash_md5 comparison code goes here.
+
     file_to_upload = {upload_file_prefix: open(save_path + "/" + filename, 'rb')}
 
     headers = {
