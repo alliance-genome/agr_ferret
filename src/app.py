@@ -7,22 +7,10 @@ from upload import *
 from compression import *
 from cerberus import Validator
 
-coloredlogs.install(level=logging.DEBUG,
-                    fmt='%(asctime)s %(levelname)s: %(name)s:%(lineno)d: %(message)s',
-                    field_styles={
-                            'asctime': {'color': 'green'},
-                            'hostname': {'color': 'magenta'},
-                            'levelname': {'color': 'white', 'bold': True},
-                            'name': {'color': 'blue'},
-                            'programname': {'color': 'cyan'}
-                    })
-
-logging.getLogger("urllib3").setLevel(logging.DEBUG)
-logger = logging.getLogger(__name__)
-
 parser = argparse.ArgumentParser()
 parser.add_argument("-f", "--files", type=argparse.FileType('r'), nargs='*', 
 help="Path to files to parse, accepts * as wildcard for filenames")
+parser.add_argument('-v', '--verbose', help='Enable verbose mode.', action='store_true')
 
 args = parser.parse_args()
 files_to_read = None
@@ -33,6 +21,24 @@ else:
     files_to_read = []
     for entry in args.files:
         files_to_read.append(entry.name)
+
+if args.verbose or ("DEBUG" in os.environ and os.environ['DEBUG'] == "True"):
+    debug_level = logging.DEBUG
+else:
+    debug_level = logging.INFO
+
+coloredlogs.install(level=debug_level,
+                    fmt='%(asctime)s %(levelname)s: %(name)s:%(lineno)d: %(message)s',
+                    field_styles={
+                            'asctime': {'color': 'green'},
+                            'hostname': {'color': 'magenta'},
+                            'levelname': {'color': 'white', 'bold': True},
+                            'name': {'color': 'blue'},
+                            'programname': {'color': 'cyan'}
+                    })
+
+logging.getLogger("urllib3").setLevel(debug_level)
+logger = logging.getLogger(__name__)
 
 class FileManager(object):
     
