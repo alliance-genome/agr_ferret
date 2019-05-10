@@ -1,4 +1,4 @@
-import logging, coloredlogs, yaml, os, sys, json, urllib3, requests, time, random, hashlib
+import logging, coloredlogs, yaml, os, sys, json, urllib3, requests, time, random
 import multiprocessing, time, glob, argparse, itertools
 from retry.api import retry_call
 from collections import defaultdict
@@ -102,16 +102,7 @@ def process_files(dataset, shared_list, finished_list):
             while url not in finished_list:
                 time.sleep(1)
 
-        # Generate md5
-        logger.info('{}: Generating md5 hash for {}.'.format(process_name, filename))
-        hash_md5 = hashlib.md5()
-        with open(save_path + '/' + filename, 'rb') as f:
-            for chunk in iter(lambda: f.read(4096), b''):
-                hash_md5.update(chunk)
-        logger.info('{}: Finished generating md5 hash: {}'.format(process_name, hash_md5.hexdigest()))
-            
-
-        upload_alliance(process_name, filename, save_path, data_type, data_sub_type, hash_md5)
+        upload_process(process_name, filename, save_path, data_type, data_sub_type)
         
 class ProcessManager(object):
 

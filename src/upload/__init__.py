@@ -1,1 +1,1 @@
-from .upload import upload_alliance
+from .upload import upload_process
