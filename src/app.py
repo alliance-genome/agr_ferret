@@ -77,7 +77,7 @@ class FileManager(object):
                 dataset_list.append(dataset)
         return dataset_list
 
-def process_files(dataset, shared_list, finished_list):
+def process_files(dataset, shared_list, finished_list, config_info):
     process_name = multiprocessing.current_process().name
     url = dataset['url']
     data_type = dataset['type']
@@ -102,14 +102,15 @@ def process_files(dataset, shared_list, finished_list):
             while url not in finished_list:
                 time.sleep(1)
 
-        upload_process(process_name, filename, save_path, data_type, data_sub_type)
+        upload_process(process_name, filename, save_path, data_type, data_sub_type, config_info)
         
 class ProcessManager(object):
 
-    def __init__(self, process_count, dataset_info, emails):
+    def __init__(self, dataset_info, config_info):
         self.dataset_info = dataset_info # Datasets with downloadable information.
-        self.process_count = process_count # Number of processes to create.
-        self.emails = emails # List of email accounts to notify on failure.
+        self.process_count = config_info.config['threads'] # Number of processes to create.
+        self.emails = config_info.config['notification_emails'] # List of email accounts to notify on failure.
+        self.config_info = config_info # Bring along our configuration values for later functions.
 
     def worker_error(self, e):
         # If we encounter an Exception from one of our workers, terminate the pool and exit immediately.
@@ -123,22 +124,15 @@ class ProcessManager(object):
         finished_list = manager.list() # A shared list of finished URLs.
 
         self.pool = multiprocessing.Pool(processes=self.process_count) # Create our pool.
-        [self.pool.apply_async(process_files, (x, shared_list, finished_list), error_callback=self.worker_error) for x in self.dataset_info]
+        # Send off all our datasets to the process_files function.
+        [self.pool.apply_async(process_files, (x, shared_list, finished_list, self.config_info), error_callback=self.worker_error) for x in self.dataset_info]
         self.pool.close()
         self.pool.join()
 
-class Singleton(type):
-    _instances = {}
-
-    def __call__(cls, *args, **kwargs):
-        if (cls, args, frozenset(kwargs.items())) not in cls._instances:
-            cls._instances[(cls, args, frozenset(kwargs.items()))] = super(Singleton, cls).__call__(*args, **kwargs)
-        return cls._instances[(cls, args, frozenset(kwargs.items()))]
-
 # Common configuration variables used throughout the script.
-class ContextInfo(metaclass=Singleton):
+class ContextInfo(object):
+
     def __init__(self):
-        # Load config file values from file.
         config_file = open('config.yaml', 'r')
         self.config = yaml.load(config_file, Loader=yaml.FullLoader)
 
@@ -147,6 +141,7 @@ class ContextInfo(metaclass=Singleton):
             try: 
                 self.config[key] = os.environ[key]
             except KeyError:
+                logger.info('Environmental variable not found for \'{}\'. Using config.yaml value.'.format(key))
                 pass # If we don't find an ENV variable, keep the value from the config file.
         
         logger.debug('Initialized with config values: {}'.format(self.config))
@@ -154,12 +149,12 @@ class ContextInfo(metaclass=Singleton):
 
 def main():
 
-    context_info = ContextInfo() # Initialize our configuration values.
+    config_info = ContextInfo() # Initialize our configuration values.
 
     dataset_info = FileManager().return_datasets() # Initialize our datasets from the dataset files.
 
     # Begin processing datasets with the ProcessManager.
-    ProcessManager(context_info.config['threads'], dataset_info, context_info.config['notification_emails']).start_processes()
+    ProcessManager(dataset_info, config_info).start_processes()
 
 if __name__ == '__main__':
     main()

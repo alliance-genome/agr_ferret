@@ -18,26 +18,24 @@ def create_md5(worker, filename, save_path):
 
     return hash_md5.hexdigest()
 
-def upload_file(worker, filename, save_path, upload_file_prefix, context_info):
+def upload_file(worker, filename, save_path, upload_file_prefix, config_info):
     file_to_upload = {upload_file_prefix: open(save_path + "/" + filename, 'rb')}
 
     headers = {
-        'Authorization': 'Bearer {}'.format(context_info.config['API_KEY'])
+        'Authorization': 'Bearer {}'.format(config_info.config['API_KEY'])
     }
 
     logger.debug('{}: Attempting upload of data file: {}'.format(worker, save_path + '/' + filename, ))
     logger.debug('{}: Attempting upload with header: {}'.format(worker, headers))
-    logger.info("{}: Uploading data to {}) ...".format(worker, context_info.config['FMS_URL']))
+    logger.info("{}: Uploading data to {}) ...".format(worker, config_info.config['FMS_URL']))
 
-    response = requests.post(context_info.config['FMS_URL'], files=file_to_upload, headers=headers)
+    response = requests.post(config_info.config['FMS_URL'], files=file_to_upload, headers=headers)
     logger.info(response.text)
 
 @retry(tries=5, delay=5, logger=logger)
-def upload_process(worker, filename, save_path, data_type, data_sub_type):
+def upload_process(worker, filename, save_path, data_type, data_sub_type, config_info):
 
-    context_info = ContextInfo()
-
-    schema = context_info.config['schema']
+    schema = config_info.config['schema']
     upload_file_prefix = '{}_{}_{}'.format(schema, data_type, data_sub_type)
 
     generated_md5 = create_md5(worker, filename, save_path)
@@ -63,9 +61,9 @@ def upload_process(worker, filename, save_path, data_type, data_sub_type):
             logger.info('{}: Existing MD5 does not match the newly generated MD5. A new file will be uploaded.'.format(worker))
             logger.info('{}: File: {}'.format(worker, filename))
             logger.info('{}: Existing: {} New: {}'.format(worker, existing_md5, generated_md5))
-            upload_file(worker, filename, save_path, upload_file_prefix, context_info)
+            upload_file(worker, filename, save_path, upload_file_prefix, config_info)
     else:
         logger.info('{}: Existing MD5 not found. A new file will be uploaded.'.format(worker))
         logger.info('{}: File: {}'.format(worker, filename))
         logger.info('{}: Existing: {} New: {}'.format(worker, existing_md5, generated_md5))
-        upload_file(worker, filename, save_path, upload_file_prefix, context_info)
+        upload_file(worker, filename, save_path, upload_file_prefix, config_info)
