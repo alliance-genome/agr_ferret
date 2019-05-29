@@ -138,4 +138,12 @@ datasets:
     type: ONTOLOGY
     subtype: UBERON
     status: active
+  -
+    id: ECOMAP
+    filename: gaf-eco-mapping.txt
+    url: http://purl.obolibrary.org/obo/eco/gaf-eco-mapping.txt
+    filetype: obo
+    type: ONTOLOGY
+    subtype: ECOMAP
+    status: active
 

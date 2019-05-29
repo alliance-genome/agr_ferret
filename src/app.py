@@ -84,8 +84,6 @@ class FileManager(object):
 
 
 def process_files(dataset, shared_list, finished_list, config_info):
-    logger.debug(shared_list)
-    logger.debug(finished_list)
     process_name = multiprocessing.current_process().name
     url = dataset['url']
     data_type = dataset['type']
