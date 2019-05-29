@@ -7,6 +7,7 @@ from app import ContextInfo
 
 logger = logging.getLogger(__name__)
 
+
 def create_md5(worker, filename, save_path):
     # Generate md5
     logger.info('{}: Generating md5 hash for {}.'.format(worker, filename))
@@ -18,6 +19,7 @@ def create_md5(worker, filename, save_path):
 
     return hash_md5.hexdigest()
 
+
 def upload_file(worker, filename, save_path, upload_file_prefix, config_info):
     file_to_upload = {upload_file_prefix: open(save_path + "/" + filename, 'rb')}
 
@@ -27,10 +29,11 @@ def upload_file(worker, filename, save_path, upload_file_prefix, config_info):
 
     logger.debug('{}: Attempting upload of data file: {}'.format(worker, save_path + '/' + filename, ))
     logger.debug('{}: Attempting upload with header: {}'.format(worker, headers))
-    logger.info("{}: Uploading data to {}) ...".format(worker, config_info.config['FMS_URL']))
+    logger.info("{}: Uploading data to {}) ...".format(worker, config_info.config['FMS_HOST']+'api/data/submit/'))
 
-    response = requests.post(config_info.config['FMS_URL'], files=file_to_upload, headers=headers)
+    response = requests.post(config_info.config['FMS_HOST']+'api/data/submit/', files=file_to_upload, headers=headers)
     logger.info(response.text)
+
 
 @retry(tries=5, delay=5, logger=logger)
 def upload_process(worker, filename, save_path, data_type, data_sub_type, config_info):
@@ -41,7 +44,7 @@ def upload_process(worker, filename, save_path, data_type, data_sub_type, config
     generated_md5 = create_md5(worker, filename, save_path)
 
     # Attempt to grab MD5 for the latest version of the file.
-    url_to_check = 'http://fmsdev.alliancegenome.org/api/datafile/{}/{}?latest=true'.format(data_type, data_sub_type)
+    url_to_check = config_info.config['FMS_HOST'] + 'api/datafile/{}/{}?latest=true'.format(data_type, data_sub_type)
     chip_response = urllib.request.urlopen(url_to_check)
     chip_data = data = json.loads(chip_response.read().decode(chip_response.info().get_param('charset') or 'utf-8'))
     logger.debug('{}: Retrieved API data from chipmunk: {}'.format(worker, chip_data))
