@@ -1,6 +1,6 @@
 # Settings used throughout the script.
 notification_emails: [test@test.com, test2@test.com]
-threads: 5
+threads: 1
 schema: 1.0.0.8
 
 # Default environmental variables.

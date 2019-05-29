@@ -9,4 +9,4 @@ datasets:
     filetype: json
     type: BGI
     subtype: FB
-    status: active
+    status: inactive

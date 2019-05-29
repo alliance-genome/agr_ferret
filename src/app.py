@@ -84,6 +84,8 @@ class FileManager(object):
 
 
 def process_files(dataset, shared_list, finished_list, config_info):
+    logger.debug(shared_list)
+    logger.debug(finished_list)
     process_name = multiprocessing.current_process().name
     url = dataset['url']
     data_type = dataset['type']
@@ -91,14 +93,13 @@ def process_files(dataset, shared_list, finished_list, config_info):
     filename = dataset['filename']
     save_path = '/usr/src/app/tmp'
 
-    logger.debug('{} is processing {}'.format(process_name, dataset))
-    
     if dataset['status'] == 'active':
         if url not in shared_list and url not in finished_list:
             shared_list.append(url)
             download(process_name, url, filename, save_path)
             shared_list.remove(url)
-            decompress(process_name, filename, save_path)
+            if filename.endswith("gz"):
+                decompress(process_name, filename, save_path)
             finished_list.append(url)
         elif url in finished_list:
             logger.info('{}: URL already downloaded via another process: {}'.format(process_name, url))
@@ -106,7 +107,7 @@ def process_files(dataset, shared_list, finished_list, config_info):
             logger.info('{}: URL already downloading via another process: {}'.format(process_name, url))
             logger.info('{}: Waiting for other process\'s download to finish.'.format(process_name))
             while url not in finished_list:
-                time.sleep(1)
+                time.sleep(10)
 
         upload_process(process_name, filename, save_path, data_type, data_sub_type, config_info)
 
@@ -131,6 +132,7 @@ class ProcessManager(object):
         finished_list = manager.list()  # A shared list of finished URLs.
 
         self.pool = multiprocessing.Pool(processes=self.process_count)  # Create our pool.
+
         # Send off all our datasets to the process_files function.
         [self.pool.apply_async(process_files, (x, shared_list, finished_list, self.config_info),
                                error_callback=self.worker_error) for x in self.dataset_info]
@@ -160,9 +162,7 @@ class ContextInfo(object):
 def main():
 
     config_info = ContextInfo()  # Initialize our configuration values.
-
     dataset_info = FileManager().return_datasets()  # Initialize our datasets from the dataset files.
-
     # Begin processing datasets with the ProcessManager.
     ProcessManager(dataset_info, config_info).start_processes()
 
