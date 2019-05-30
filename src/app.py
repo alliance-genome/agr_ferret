@@ -1,22 +1,20 @@
-import logging, coloredlogs, yaml, os, sys, json, urllib3, requests, time, random
-import multiprocessing, time, glob, argparse, itertools
-from retry.api import retry_call
-from collections import defaultdict
+import logging, coloredlogs, yaml, os, sys, urllib3, requests
+import multiprocessing, time, glob, argparse
 from download import *
 from upload import *
 from compression import *
 from cerberus import Validator
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-f", "--files", type=argparse.FileType('r'), nargs='*', 
-help="Path to files to parse, accepts * as wildcard for filenames")
+parser.add_argument("-f", "--files", type=argparse.FileType('r'), nargs='*',
+                    help="Path to files to parse, accepts * as wildcard for filenames")
 parser.add_argument('-v', '--verbose', help='Enable verbose mode.', action='store_true')
 
 args = parser.parse_args()
 files_to_read = None
 
 if args.files is None:
-    files_to_read = glob.glob(os.path.join('datasets', '*.yaml'))
+    files_to_read = glob.glob('src/datasets/*.yaml')
 else:
     files_to_read = []
     for entry in args.files:
@@ -40,6 +38,7 @@ coloredlogs.install(level=debug_level,
 logging.getLogger("urllib3").setLevel(debug_level)
 logger = logging.getLogger(__name__)
 
+
 class FileManager(object):
     
     def __init__(self):
@@ -47,7 +46,7 @@ class FileManager(object):
         self.validation_schema = None
 
         # Load validation schema.
-        validation_yaml_file_loc = os.path.abspath('validation/validation.yaml')
+        validation_yaml_file_loc = 'src/validation/validation.yaml'
         logger.debug('Loading validation schema: {}'.format(validation_yaml_file_loc))
         validation_schema_file = open(validation_yaml_file_loc, 'r')
         self.validation_schema = yaml.load(validation_schema_file, Loader=yaml.SafeLoader)
@@ -83,16 +82,15 @@ class FileManager(object):
                 dataset_list.append(dataset)
         return dataset_list
 
+
 def process_files(dataset, shared_list, finished_list, config_info):
     process_name = multiprocessing.current_process().name
     url = dataset['url']
     data_type = dataset['type']
     data_sub_type = dataset['subtype']
     filename = dataset['filename']
-    save_path = 'files'
+    save_path = '/usr/src/app/tmp'
 
-    logger.debug('{} is processing {}'.format(process_name, dataset))
-    
     if dataset['status'] == 'active':
         if url not in shared_list and url not in finished_list:
             shared_list.append(url)
@@ -106,17 +104,17 @@ def process_files(dataset, shared_list, finished_list, config_info):
             logger.info('{}: URL already downloading via another process: {}'.format(process_name, url))
             logger.info('{}: Waiting for other process\'s download to finish.'.format(process_name))
             while url not in finished_list:
-                time.sleep(1)
+                time.sleep(10)
 
         upload_process(process_name, filename, save_path, data_type, data_sub_type, config_info)
-        
+
 class ProcessManager(object):
 
     def __init__(self, dataset_info, config_info):
-        self.dataset_info = dataset_info # Datasets with downloadable information.
-        self.process_count = config_info.config['threads'] # Number of processes to create.
-        self.emails = config_info.config['notification_emails'] # List of email accounts to notify on failure.
-        self.config_info = config_info # Bring along our configuration values for later functions.
+        self.dataset_info = dataset_info  # Datasets with downloadable information.
+        self.process_count = config_info.config['threads']  # Number of processes to create.
+        self.emails = config_info.config['notification_emails']  # List of email accounts to notify on failure.
+        self.config_info = config_info  # Bring along our configuration values for later functions.
 
     def worker_error(self, e):
         # If we encounter an Exception from one of our workers, terminate the pool and exit immediately.
@@ -126,20 +124,23 @@ class ProcessManager(object):
 
     def start_processes(self):
         manager = multiprocessing.Manager()
-        shared_list = manager.list() # A shared list to track downloading URLs.
-        finished_list = manager.list() # A shared list of finished URLs.
+        shared_list = manager.list()  # A shared list to track downloading URLs.
+        finished_list = manager.list()  # A shared list of finished URLs.
 
-        self.pool = multiprocessing.Pool(processes=self.process_count) # Create our pool.
+        self.pool = multiprocessing.Pool(processes=self.process_count)  # Create our pool.
+
         # Send off all our datasets to the process_files function.
-        [self.pool.apply_async(process_files, (x, shared_list, finished_list, self.config_info), error_callback=self.worker_error) for x in self.dataset_info]
+        [self.pool.apply_async(process_files, (x, shared_list, finished_list, self.config_info),
+                               error_callback=self.worker_error) for x in self.dataset_info]
         self.pool.close()
         self.pool.join()
+
 
 # Common configuration variables used throughout the script.
 class ContextInfo(object):
 
     def __init__(self):
-        config_file = open('config.yaml', 'r')
+        config_file = open('src/config.yaml', 'r')
         self.config = yaml.load(config_file, Loader=yaml.FullLoader)
 
         # Look for ENV variables to replace default variables from config file.
@@ -148,19 +149,19 @@ class ContextInfo(object):
                 self.config[key] = os.environ[key]
             except KeyError:
                 logger.info('Environmental variable not found for \'{}\'. Using config.yaml value.'.format(key))
-                pass # If we don't find an ENV variable, keep the value from the config file.
+                pass  # If we don't find an ENV variable, keep the value from the config file.
         
         logger.debug('Initialized with config values: {}'.format(self.config))
         logger.info('Retrieval errors will be emailed to: {}'.format(self.config['notification_emails']))            
 
+
 def main():
 
-    config_info = ContextInfo() # Initialize our configuration values.
-
-    dataset_info = FileManager().return_datasets() # Initialize our datasets from the dataset files.
-
+    config_info = ContextInfo()  # Initialize our configuration values.
+    dataset_info = FileManager().return_datasets()  # Initialize our datasets from the dataset files.
     # Begin processing datasets with the ProcessManager.
     ProcessManager(dataset_info, config_info).start_processes()
+
 
 if __name__ == '__main__':
     main()

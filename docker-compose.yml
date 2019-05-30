@@ -1,0 +1,25 @@
+version: "3.2"
+
+services:
+  agr_ferret:
+    image: agrdocker/agr_ferret_run:latest
+    volumes:
+      - type: volume
+        source: agr_data_share
+        target: /usr/src/app/tmp
+        volume:
+          nocopy: true
+    environment:
+      - PYTHONUNBUFFERED=1
+      - NET=production
+      - ALLIANCE_RELEASE=2.2.0
+      - FMS_HOST=https://fmsdev.alliancegenome.org
+      - API_KEY=${API_KEY}
+      - DEBUG=True
+    entrypoint:
+      - python3
+      - -u 
+      - src/app.py
+
+volumes:
+  agr_data_share:
