@@ -9,8 +9,6 @@ services:
         target: /usr/src/app/tmp
         volume:
           nocopy: true
-    networks:
-      - esnet
     environment:
       - PYTHONUNBUFFERED=1
       - NET=production
@@ -22,9 +20,6 @@ services:
       - python3
       - -u 
       - src/app.py
-
-networks:
-  esnet:
 
 volumes:
   agr_data_share:

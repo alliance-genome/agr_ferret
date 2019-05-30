@@ -96,8 +96,7 @@ def process_files(dataset, shared_list, finished_list, config_info):
             shared_list.append(url)
             download(process_name, url, filename, save_path)
             shared_list.remove(url)
-            if filename.endswith("gz"):
-                decompress(process_name, filename, save_path)
+            decompress(process_name, filename, save_path)
             finished_list.append(url)
         elif url in finished_list:
             logger.info('{}: URL already downloaded via another process: {}'.format(process_name, url))
@@ -108,7 +107,6 @@ def process_files(dataset, shared_list, finished_list, config_info):
                 time.sleep(10)
 
         upload_process(process_name, filename, save_path, data_type, data_sub_type, config_info)
-
 
 class ProcessManager(object):
 

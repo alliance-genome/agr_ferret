@@ -55,7 +55,7 @@ def upload_process(worker, filename, save_path, data_type, data_sub_type, config
 
     # Logic for uploading new files based on existing and new MD5s.
     if not chip_data:
-        logger.info('{}: Existing MD5 not found. A new file will be uploaded.'.format(worker))
+        logger.info('{}: No response received from the FMS. A new file will be uploaded.'.format(worker))
         logger.info('{}: File: {}'.format(worker, filename))
         upload_file(worker, filename, save_path, upload_file_prefix, config_info)
     else:
