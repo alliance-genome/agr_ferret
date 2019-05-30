@@ -13,7 +13,7 @@ services:
       - PYTHONUNBUFFERED=1
       - NET=production
       - ALLIANCE_RELEASE=2.2.0
-      - FMS_HOST=https://fmsdev.alliancegenome.org
+      - FMS_API_URL=https://fmsdev.alliancegenome.org
       - API_KEY=${API_KEY}
       - DEBUG=True
     entrypoint:
