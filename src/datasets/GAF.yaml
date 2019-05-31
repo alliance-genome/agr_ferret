@@ -1,0 +1,60 @@
+id: GAF
+contact_email: zfinadmn@zfin.org
+project_url: alliancegenome.org
+datasets:
+  -
+    id: ZFIN
+    filename: zfin.gaf
+    url: https://downloaddev.alliancegenome.org/1.0.0.7/GAF/7955/1.0.0.7_GAF_7955_1.gaf
+    filetype: gaf
+    type: GAF
+    subtype: ZFIN
+    status: active
+  -
+    id: SGD
+    filename: sgd.gaf
+    url: https://downloaddev.alliancegenome.org/1.0.0.7/GAF/559292/1.0.0.7_GAF_559292_1.gaf
+    filetype: gaf
+    type: GAF
+    subtype: SGD
+    status: active
+  -
+    id: WB
+    filename: wb.gaf
+    url: https://downloaddev.alliancegenome.org/1.0.0.7/GAF/6239/1.0.0.7_GAF_6239_1.gaf
+    filetype: gaf
+    type: GAF
+    subtype: WB
+    status: active
+  -
+    id: MGI
+    filename: wb.gaf
+    url: https://downloaddev.alliancegenome.org/1.0.0.7/GAF/10090/1.0.0.7_GAF_10090_1.gaf
+    filetype: gaf
+    type: GAF
+    subtype: MGI
+    status: active
+  -
+    id: FB
+    filename: fb.gaf
+    url: https://downloaddev.alliancegenome.org/1.0.0.7/GAF/7227/1.0.0.7_GAF_7227_1.gaf
+    filetype: gaf
+    type: GAF
+    subtype: FB
+    status: active
+  -
+    id: RGD
+    filename: rgd.gaf
+    url: https://downloaddev.alliancegenome.org/1.0.0.7/GAF/10116/1.0.0.7_GAF_10116_1.gaf
+    filetype: gaf
+    type: GAF
+    subtype: RGD
+    status: active
+  -
+    id: HUMAN
+    filename: 1.0.0.8_GAF_9606_9.gaf
+    url: https://download.alliancegenome.org/1.0.0.8/GAF/9606/1.0.0.8_GAF_9606_9.gaf
+    filetype: gaf
+    type: GAF
+    subtype: HUMAN
+    status: active
