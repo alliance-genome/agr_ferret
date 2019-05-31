@@ -1,7 +1,7 @@
 id:
   type: string
   required: True
-  allowed: [FB, WB, ONTOLOGY]
+  allowed: [FB, WB, ONTOLOGY, GAF]
 contact_email:
   type: string
   required: True
@@ -38,10 +38,10 @@ datasets:
       type:
         type: string
         required: True
-        allowed: [BGI, ONTOLOGY]
+        allowed: [BGI, ONTOLOGY, GAF]
       subtype: 
         type: string
         required: True
-        allowed: [FB, ZFA, ZFS, GO, MI, MMO, UBERON, ECO, WBBT, FBBT, MA, CL, DOID, MMUSDV, EMAPA, BSPO, FBCV, SO, WBLS, ECOMAP]
+        allowed: [ZFIN, RGD, SGD, MGI, WB, HUMAN, FB, ZFA, ZFS, GO, MI, MMO, UBERON, ECO, WBBT, FBBT, MA, CL, DOID, MMUSDV, EMAPA, BSPO, FBCV, SO, WBLS, ECOMAP]
 
       
