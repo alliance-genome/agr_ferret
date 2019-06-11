@@ -29,9 +29,9 @@ def upload_file(worker, filename, save_path, upload_file_prefix, config_info):
 
     logger.debug('{}: Attempting upload of data file: {}'.format(worker, save_path + '/' + filename, ))
     logger.debug('{}: Attempting upload with header: {}'.format(worker, headers))
-    logger.info("{}: Uploading data to {}) ...".format(worker, config_info.config['FMS_HOST']+'/api/data/submit/'))
+    logger.info("{}: Uploading data to {}) ...".format(worker, config_info.config['FMS_API_URL']+'/api/data/submit/'))
 
-    response = requests.post(config_info.config['FMS_HOST']+'/api/data/submit/', files=file_to_upload, headers=headers)
+    response = requests.post(config_info.config['FMS_API_URL']+'/api/data/submit/', files=file_to_upload, headers=headers)
     logger.info(response.text)
 
 
@@ -44,8 +44,8 @@ def upload_process(worker, filename, save_path, data_type, data_sub_type, config
     generated_md5 = create_md5(worker, filename, save_path)
 
     # Attempt to grab MD5 for the latest version of the file.
-    logger.debug(config_info.config['FMS_HOST'] + '/api/datafile/{}/{}?latest=true'.format(data_type, data_sub_type))
-    url_to_check = config_info.config['FMS_HOST'] + '/api/datafile/{}/{}?latest=true'.format(data_type, data_sub_type)
+    logger.debug(config_info.config['FMS_API_URL'] + '/api/datafile/{}/{}?latest=true'.format(data_type, data_sub_type))
+    url_to_check = config_info.config['FMS_API_URL'] + '/api/datafile/{}/{}?latest=true'.format(data_type, data_sub_type)
     chip_response = urllib.request.urlopen(url_to_check)
     chip_data = data = json.loads(chip_response.read().decode(chip_response.info().get_param('charset') or 'utf-8'))
     logger.debug('{}: Retrieved API data from chipmunk: {}'.format(worker, chip_data))
