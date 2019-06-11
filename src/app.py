@@ -121,6 +121,7 @@ class ProcessManager(object):
         # TODO Put email logic here.
         self.pool.terminate()
         logger.error(e)
+        sys.exit(-1)
 
     def start_processes(self):
         manager = multiprocessing.Manager()
