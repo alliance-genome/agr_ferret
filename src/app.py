@@ -115,13 +115,15 @@ class ProcessManager(object):
         self.process_count = config_info.config['threads']  # Number of processes to create.
         self.emails = config_info.config['notification_emails']  # List of email accounts to notify on failure.
         self.config_info = config_info  # Bring along our configuration values for later functions.
+        self.set_false_when_failed = True # If any process fails, set this to False.
+
 
     def worker_error(self, e):
         # If we encounter an Exception from one of our workers, terminate the pool and exit immediately.
         # TODO Put email logic here.
         self.pool.terminate()
         logger.error(e)
-        sys.exit(-1)
+        self.set_false_when_failed = False
 
     def start_processes(self):
         manager = multiprocessing.Manager()
@@ -135,6 +137,8 @@ class ProcessManager(object):
                                error_callback=self.worker_error) for x in self.dataset_info]
         self.pool.close()
         self.pool.join()
+
+        return self.set_false_when_failed
 
 
 # Common configuration variables used throughout the script.
@@ -161,8 +165,10 @@ def main():
     config_info = ContextInfo()  # Initialize our configuration values.
     dataset_info = FileManager().return_datasets()  # Initialize our datasets from the dataset files.
     # Begin processing datasets with the ProcessManager.
-    ProcessManager(dataset_info, config_info).start_processes()
+    did_everything_pass = ProcessManager(dataset_info, config_info).start_processes()
 
+    if did_everything_pass is False:
+        sys.exit(-1)
 
 if __name__ == '__main__':
     main()
