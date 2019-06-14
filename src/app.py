@@ -90,6 +90,7 @@ def process_files(dataset, shared_list, finished_list, config_info):
     data_sub_type = dataset['subtype']
     filename = dataset['filename']
     save_path = '/usr/src/app/tmp'
+    filename_suffix = filename.split('.')[-1]
 
     if dataset['status'] == 'active':
         if url not in shared_list and url not in finished_list:
@@ -97,6 +98,10 @@ def process_files(dataset, shared_list, finished_list, config_info):
             download(process_name, url, filename, save_path)
             shared_list.remove(url)
             decompress(process_name, filename, save_path)
+            if filename_suffix == 'gz':
+                filename = filename[:-3]
+            logger.info(filename)
+            logger.info(save_path)
             finished_list.append(url)
         elif url in finished_list:
             logger.info('{}: URL already downloaded via another process: {}'.format(process_name, url))
@@ -108,6 +113,7 @@ def process_files(dataset, shared_list, finished_list, config_info):
 
         upload_process(process_name, filename, save_path, data_type, data_sub_type, config_info)
 
+
 class ProcessManager(object):
 
     def __init__(self, dataset_info, config_info):
@@ -116,7 +122,6 @@ class ProcessManager(object):
         self.emails = config_info.config['notification_emails']  # List of email accounts to notify on failure.
         self.config_info = config_info  # Bring along our configuration values for later functions.
         self.set_false_when_failed = True # If any process fails, set this to False.
-
 
     def worker_error(self, e):
         # If we encounter an Exception from one of our workers, terminate the pool and exit immediately.
@@ -169,6 +174,7 @@ def main():
 
     if did_everything_pass is False:
         sys.exit(-1)
+
 
 if __name__ == '__main__':
     main()
