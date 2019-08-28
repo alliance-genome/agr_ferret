@@ -38,7 +38,7 @@ def upload_file(worker, filename, save_path, upload_file_prefix, config_info):
 @retry(tries=5, delay=5, logger=logger)
 def upload_process(worker, filename, save_path, data_type, data_sub_type, config_info):
 
-    schema = config_info.config['schema']
+    schema = config_info.config['SCHEMA_VERSION']
     upload_file_prefix = '{}_{}_{}'.format(schema, data_type, data_sub_type)
 
     generated_md5 = create_md5(worker, filename, save_path)
