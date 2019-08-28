@@ -1,0 +1,60 @@
+id: GENEEEXPRESSIONATLASSITEMAP 
+contact_email: alliance-architecture@lists.stanford.edu 
+project_url: alliancegenome.org
+datasets:
+  -
+    id: ZFIN
+    filename: zfin.sitemap.xml
+    url: "http://www.ebi.ac.uk/gxa/species/Danio_rerio/sitemap.xml"
+    filetype: xml
+    type: XML
+    subtype: ZFIN
+    status: active
+  -
+    id: SGD
+    filename: sgd.sitemap.xml
+    url: "http://www.ebi.ac.uk/gxa/species/Saccharomyces_cerevisiae/sitemap.xml"
+    filetype: xml
+    type: XML
+    subtype: SGD
+    status: active
+  -
+    id: WB
+    filename: wb.sitemap.xml
+    url: "http://www.ebi.ac.uk/gxa/species/Caenorhabditis_elegans/sitemap.xml"
+    filetype: xml
+    type: XML
+    subtype: WB
+    status: active
+  -
+    id: MGI
+    filename: wb.sitemap.xml
+    url: "http://www.ebi.ac.uk/gxa/species/Mus_musculus/sitemap.xml"
+    filetype: xml
+    type: XML
+    subtype: MGI
+    status: active
+  -
+    id: FB
+    filename: fb.sitemap.xml
+    url: "http://www.ebi.ac.uk/gxa/species/Drosophila_melanogaster/sitemap.xml"
+    filetype: xml
+    type: XML
+    subtype: FB
+    status: active
+  -
+    id: RGD
+    filename: rgd.sitemap.xml
+    url: "http://www.ebi.ac.uk/gxa/species/Rattus_norvegicus/sitemap.xml"
+    filetype: xml
+    type: XML
+    subtype: RGD
+    status: active
+  -
+    id: HUMAN
+    filename: human.sitemap.xml
+    url: "http://www.ebi.ac.uk/gxa/species/Homo_sapiens/sitemap.xml"
+    filetype: xml
+    type: XML
+    subtype: HUMAN
+    status: active

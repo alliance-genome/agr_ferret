@@ -38,7 +38,7 @@ datasets:
       type:
         type: string
         required: True
-        allowed: [BGI, ONTOLOGY, GAF]
+        allowed: [BGI, ONTOLOGY, GAF, GENEEEXPRESSIONATLASSITEMAP]
       subtype: 
         type: string
         required: True
