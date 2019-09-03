@@ -1,7 +1,7 @@
 id:
   type: string
   required: True
-  allowed: [FB, WB, ONTOLOGY, GAF]
+  allowed: [FB, WB, ONTOLOGY, GAF, GENEEEXPRESSIONATLASSITEMAP]
 contact_email:
   type: string
   required: True

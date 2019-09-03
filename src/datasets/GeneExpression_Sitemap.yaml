@@ -28,7 +28,7 @@ datasets:
     status: active
   -
     id: MGI
-    filename: wb.sitemap.xml
+    filename: mgi.sitemap.xml
     url: "http://www.ebi.ac.uk/gxa/species/Mus_musculus/sitemap.xml"
     filetype: xml
     type: XML
