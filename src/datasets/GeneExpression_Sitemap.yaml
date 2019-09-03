@@ -7,7 +7,7 @@ datasets:
     filename: zfin.sitemap.xml
     url: "http://www.ebi.ac.uk/gxa/species/Danio_rerio/sitemap.xml"
     filetype: xml
-    type: XML
+    type: GENEEEXPRESSIONATLASSITEMAP
     subtype: ZFIN
     status: active
   -
@@ -15,7 +15,7 @@ datasets:
     filename: sgd.sitemap.xml
     url: "http://www.ebi.ac.uk/gxa/species/Saccharomyces_cerevisiae/sitemap.xml"
     filetype: xml
-    type: XML
+    type: GENEEEXPRESSIONATLASSITEMAP
     subtype: SGD
     status: active
   -
@@ -23,7 +23,7 @@ datasets:
     filename: wb.sitemap.xml
     url: "http://www.ebi.ac.uk/gxa/species/Caenorhabditis_elegans/sitemap.xml"
     filetype: xml
-    type: XML
+    type: GENEEEXPRESSIONATLASSITEMAP
     subtype: WB
     status: active
   -
@@ -31,7 +31,7 @@ datasets:
     filename: mgi.sitemap.xml
     url: "http://www.ebi.ac.uk/gxa/species/Mus_musculus/sitemap.xml"
     filetype: xml
-    type: XML
+    type: GENEEEXPRESSIONATLASSITEMAP
     subtype: MGI
     status: active
   -
@@ -39,7 +39,7 @@ datasets:
     filename: fb.sitemap.xml
     url: "http://www.ebi.ac.uk/gxa/species/Drosophila_melanogaster/sitemap.xml"
     filetype: xml
-    type: XML
+    type: GENEEEXPRESSIONATLASSITEMAP
     subtype: FB
     status: active
   -
@@ -47,7 +47,7 @@ datasets:
     filename: rgd.sitemap.xml
     url: "http://www.ebi.ac.uk/gxa/species/Rattus_norvegicus/sitemap.xml"
     filetype: xml
-    type: XML
+    type: GENEEEXPRESSIONATLASSITEMAP
     subtype: RGD
     status: active
   -
@@ -55,6 +55,6 @@ datasets:
     filename: human.sitemap.xml
     url: "http://www.ebi.ac.uk/gxa/species/Homo_sapiens/sitemap.xml"
     filetype: xml
-    type: XML
+    type: GENEEEXPRESSIONATLASSITEMAP
     subtype: HUMAN
     status: active
