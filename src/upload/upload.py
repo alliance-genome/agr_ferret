@@ -38,14 +38,14 @@ def upload_file(worker, filename, save_path, upload_file_prefix, config_info):
 @retry(tries=5, delay=5, logger=logger)
 def upload_process(worker, filename, save_path, data_type, data_sub_type, config_info):
 
-    schema = config_info.config['SCHEMA_VERSION']
-    upload_file_prefix = '{}_{}_{}'.format(schema, data_type, data_sub_type)
+    release = config_info.config['RELEASE_VERSION']
+    upload_file_prefix = '{}_{}_{}'.format(release, data_type, data_sub_type)
 
     generated_md5 = create_md5(worker, filename, save_path)
 
     # Attempt to grab MD5 for the latest version of the file.
-    logger.debug(config_info.config['FMS_API_URL'] + '/api/datafile/{}/{}?latest=true'.format(data_type, data_sub_type))
-    url_to_check = config_info.config['FMS_API_URL'] + '/api/datafile/{}/{}?latest=true'.format(data_type, data_sub_type)
+    logger.debug(config_info.config['FMS_API_URL'] + '/api/datafile/by/{}/{}?latest=true'.format(data_type, data_sub_type))
+    url_to_check = config_info.config['FMS_API_URL'] + '/api/datafile/by/{}/{}?latest=true'.format(data_type, data_sub_type)
     chip_response = urllib.request.urlopen(url_to_check)
     chip_data = data = json.loads(chip_response.read().decode(chip_response.info().get_param('charset') or 'utf-8'))
     logger.debug('{}: Retrieved API data from chipmunk: {}'.format(worker, chip_data))
