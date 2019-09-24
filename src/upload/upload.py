@@ -12,7 +12,7 @@ def create_md5(worker, filename, save_path):
     # Generate md5
     logger.info('{}: Generating md5 hash for {}.'.format(worker, filename))
     hash_md5 = hashlib.md5()
-    with open(save_path + '/' + filename, 'rb') as f:
+    with open(os.path.join(save_path, filename), 'rb') as f:
         for chunk in iter(lambda: f.read(4096), b''):
             hash_md5.update(chunk)
     logger.info('{}: Finished generating md5 hash: {}'.format(worker, hash_md5.hexdigest()))
