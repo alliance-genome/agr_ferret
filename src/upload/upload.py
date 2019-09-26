@@ -12,7 +12,7 @@ def create_md5(worker, filename, save_path):
     # Generate md5
     logger.info('{}: Generating md5 hash for {}.'.format(worker, filename))
     hash_md5 = hashlib.md5()
-    with open(save_path + '/' + filename, 'rb') as f:
+    with open(os.path.join(save_path, filename), 'rb') as f:
         for chunk in iter(lambda: f.read(4096), b''):
             hash_md5.update(chunk)
     logger.info('{}: Finished generating md5 hash: {}'.format(worker, hash_md5.hexdigest()))
@@ -21,13 +21,13 @@ def create_md5(worker, filename, save_path):
 
 
 def upload_file(worker, filename, save_path, upload_file_prefix, config_info):
-    file_to_upload = {upload_file_prefix: open(save_path + "/" + filename, 'rb')}
+    file_to_upload = {upload_file_prefix: open(os.path.join(save_path, filename), 'rb')}
 
     headers = {
         'Authorization': 'Bearer {}'.format(config_info.config['API_KEY'])
     }
 
-    logger.debug('{}: Attempting upload of data file: {}'.format(worker, save_path + '/' + filename, ))
+    logger.debug('{}: Attempting upload of data file: {}'.format(worker, os.path.join(save_path, filename)))
     logger.debug('{}: Attempting upload with header: {}'.format(worker, headers))
     logger.info("{}: Uploading data to {}) ...".format(worker, config_info.config['FMS_API_URL']+'/api/data/submit/'))
 
