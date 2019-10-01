@@ -5,7 +5,7 @@ datasets:
   -
     id: ZFIN
     filename: zfin.sitemap.xml
-    url: "http://wwwdev.ebi.ac.uk/gxa/species/Danio_rerio/sitemap.xml?allEntries=true"
+    url: "http://www.ebi.ac.uk/gxa/species/Danio_rerio/sitemap.xml?allEntries=true"
     filetype: xml
     type: GENEEEXPRESSIONATLASSITEMAP
     subtype: ZFIN
@@ -13,7 +13,7 @@ datasets:
   -
     id: SGD
     filename: sgd.sitemap.xml
-    url: "http://wwwdev.ebi.ac.uk/gxa/species/Saccharomyces_cerevisiae/sitemap.xml?allEntries=true"
+    url: "http://www.ebi.ac.uk/gxa/species/Saccharomyces_cerevisiae/sitemap.xml?allEntries=true"
     filetype: xml
     type: GENEEEXPRESSIONATLASSITEMAP
     subtype: SGD
@@ -21,7 +21,7 @@ datasets:
   -
     id: WB
     filename: wb.sitemap.xml
-    url: "http://wwwdev.ebi.ac.uk/gxa/species/Caenorhabditis_elegans/sitemap.xml?allEntries=true"
+    url: "http://www.ebi.ac.uk/gxa/species/Caenorhabditis_elegans/sitemap.xml?allEntries=true"
     filetype: xml
     type: GENEEEXPRESSIONATLASSITEMAP
     subtype: WB
@@ -29,7 +29,7 @@ datasets:
   -
     id: MGI
     filename: mgi.sitemap.xml
-    url: "http://wwwdev.ebi.ac.uk/gxa/species/Mus_musculus/sitemap.xml?allEntries=true"
+    url: "http://www.ebi.ac.uk/gxa/species/Mus_musculus/sitemap.xml?allEntries=true"
     filetype: xml
     type: GENEEEXPRESSIONATLASSITEMAP
     subtype: MGI
@@ -37,7 +37,7 @@ datasets:
   -
     id: FB
     filename: fb.sitemap.xml
-    url: "http://wwwdev.ebi.ac.uk/gxa/species/Drosophila_melanogaster/sitemap.xml?allEntries=true"
+    url: "http://www.ebi.ac.uk/gxa/species/Drosophila_melanogaster/sitemap.xml?allEntries=true"
     filetype: xml
     type: GENEEEXPRESSIONATLASSITEMAP
     subtype: FB
@@ -45,7 +45,7 @@ datasets:
   -
     id: RGD
     filename: rgd.sitemap.xml
-    url: "http://wwwdev.ebi.ac.uk/gxa/species/Rattus_norvegicus/sitemap.xml?allEntries=true"
+    url: "http://www.ebi.ac.uk/gxa/species/Rattus_norvegicus/sitemap.xml?allEntries=true"
     filetype: xml
     type: GENEEEXPRESSIONATLASSITEMAP
     subtype: RGD
@@ -53,7 +53,7 @@ datasets:
   -
     id: HUMAN
     filename: human.sitemap.xml
-    url: "http://wwwdev.ebi.ac.uk/gxa/species/Homo_sapiens/sitemap.xml?allEntries=true"
+    url: "http://www.ebi.ac.uk/gxa/species/Homo_sapiens/sitemap.xml?allEntries=true"
     filetype: xml
     type: GENEEEXPRESSIONATLASSITEMAP
     subtype: HUMAN
