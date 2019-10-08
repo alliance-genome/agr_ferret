@@ -8,6 +8,11 @@ def gunzip_file(**kwargs):
     os.system("gunzip -f {}/{}".format(kwargs['savepath'], kwargs['filename']))
 
 
+def unzip_file(**kwargs):
+    logger.info('{}: Extracting file with unzip: {}'.format(kwargs['worker'], kwargs['filename']))
+    os.system("unzip {}/{} -d {}".format(kwargs['savepath'], kwargs['filename'], kwargs['savepath']))
+
+
 def no_compression(**kwargs):
     logger.info('{}: File suffix \'{}\' not found in decompression dictionary.'.format(kwargs['worker'], kwargs['file_suffix']))
     logger.info('{}: Skipping decompression for {}.'.format(kwargs['worker'], kwargs['filename']))
@@ -18,7 +23,8 @@ def no_compression(**kwargs):
 def decompress(worker, filename, savepath):
     # After writing functions for decompression, please add them to this dispatch table by suffix.
     dispatch_dict = {
-        'gz': gunzip_file
+        'gz': gunzip_file,
+        'zip': unzip_file
     }
 
     file_suffix = filename.split('.')[-1]

@@ -1,0 +1,12 @@
+id: IMEX
+contact_email: nomail@test.com
+project_url: http://www.imexconsortium.org/
+datasets:
+  -
+    id: INTACT
+    filename: intact.zip
+    url: ftp://ftp.ebi.ac.uk/pub/databases/intact/current/psimitab/intact.zip
+    filetype: tsv
+    type: INTERACTION-SOURCE
+    subtype: IMEX
+    status: active

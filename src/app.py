@@ -58,7 +58,6 @@ class FileManager(object):
             dataset_file = open(filename, 'r')
             dataset_data = yaml.load(dataset_file, Loader=yaml.FullLoader)
             logger.debug("Loaded yaml data: {}".format(filename))
-
             logger.info("Validating yaml file: {}".format(filename))
             validation_results = validator.validate(dataset_data)
 
@@ -90,18 +89,14 @@ def process_files(dataset, shared_list, finished_list, config_info):
     data_sub_type = dataset['subtype']
     filename = dataset['filename']
     save_path = '/usr/src/app/tmp'
-    filename_suffix = filename.split('.')[-1]
 
     if dataset['status'] == 'active':
         if url not in shared_list and url not in finished_list:
             shared_list.append(url)
             download(process_name, url, filename, save_path)
             shared_list.remove(url)
-            decompress(process_name, filename, save_path)
-            if filename_suffix == 'gz':
-                filename = filename[:-3]
-            logger.info(filename)
-            logger.info(save_path)
+            if 'filename_uncompressed' in dataset:
+                decompress(process_name, filename, save_path)
             finished_list.append(url)
         elif url in finished_list:
             logger.info('{}: URL already downloaded via another process: {}'.format(process_name, url))
@@ -111,6 +106,10 @@ def process_files(dataset, shared_list, finished_list, config_info):
             while url not in finished_list:
                 time.sleep(10)
 
+        if 'filename_uncompressed' in dataset:
+            filename = dataset['filename_uncompressed']
+            logger.info('{}: Found uncompressed filename entry, uploading {}.'
+                        .format(process_name, dataset['filename_uncompressed']))
         upload_process(process_name, filename, save_path, data_type, data_sub_type, config_info)
 
 
@@ -157,6 +156,7 @@ class ContextInfo(object):
         for key in self.config.keys():
             try: 
                 self.config[key] = os.environ[key]
+                logger.info('Found environmental variable for \'{}\'.'.format(key))
             except KeyError:
                 logger.info('Environmental variable not found for \'{}\'. Using config.yaml value.'.format(key))
                 pass  # If we don't find an ENV variable, keep the value from the config file.
