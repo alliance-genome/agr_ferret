@@ -4,7 +4,6 @@ from download import *
 from upload import *
 from compression import *
 from cerberus import Validator
-import pprint
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-f", "--files", type=argparse.FileType('r'), nargs='*',
