@@ -1,12 +1,12 @@
-id: IMEX
-contact_email: nomail@test.com
-project_url: http://www.imexconsortium.org/
+id: FB
+contact_email: helpfb@morgan.harvard.edu
+project_url: http://www.flybase.org
 datasets:
   -
-    id: INTACT
-    filename: intact.zip
-    url: ftp://ftp.ebi.ac.uk/pub/databases/intact/current/psimitab/intact.zip
-    filetype: txt
-    type: INTERACTION-SOURCE
-    subtype: IMEX
-    status: active
+    id: FB_1.0.0.8_BGI.json
+    filename: FB_1.0.0.8_BGI.json
+    url: ftp://ftp.flybase.org/flybase/associated_files/FB_1.0.0.8_BGI.json
+    filetype: json
+    type: BGI
+    subtype: FB
+    status: inactive

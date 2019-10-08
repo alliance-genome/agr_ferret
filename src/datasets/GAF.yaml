@@ -5,6 +5,7 @@ datasets:
   -
     id: ZFIN
     filename: zfin.gaf.gz
+    filename_uncompressed: zfin.gaf
     url: http://current.geneontology.org/annotations/zfin.gaf.gz
     filetype: gaf
     type: GAF
@@ -13,6 +14,7 @@ datasets:
   -
     id: SGD
     filename: sgd.gaf.gz
+    filename_uncompressed: sgd.gaf
     url: http://current.geneontology.org/annotations/sgd.gaf.gz
     filetype: gaf
     type: GAF
@@ -21,6 +23,7 @@ datasets:
   -
     id: WB
     filename: wb.gaf.gz
+    filename_uncompressed: wb.gaf
     url: http://current.geneontology.org/annotations/wb.gaf.gz
     filetype: gaf
     type: GAF
@@ -29,6 +32,7 @@ datasets:
   -
     id: MGI
     filename: mgi.gaf.gz
+    filename_uncompressed: mgi.gaf
     url: http://current.geneontology.org/annotations/mgi.gaf.gz
     filetype: gaf
     type: GAF
@@ -37,6 +41,7 @@ datasets:
   -
     id: FB
     filename: fb.gaf.gz
+    filename_uncompressed: fb.gaf
     url: http://current.geneontology.org/annotations/fb.gaf.gz
     filetype: gaf
     type: GAF
@@ -45,6 +50,7 @@ datasets:
   -
     id: RGD
     filename: rgd.gaf.gz
+    filename_uncompressed: rgd.gaf
     url: http://current.geneontology.org/annotations/rgd.gaf.gz
     filetype: gaf
     type: GAF

@@ -5,8 +5,9 @@ datasets:
   -
     id: INTACT
     filename: intact.zip
+    filename_uncompressed: intact.txt
     url: ftp://ftp.ebi.ac.uk/pub/databases/intact/current/psimitab/intact.zip
-    filetype: txt
+    filetype: tsv
     type: INTERACTION-SOURCE
     subtype: IMEX
     status: active

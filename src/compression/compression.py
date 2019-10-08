@@ -10,8 +10,7 @@ def gunzip_file(**kwargs):
 
 def unzip_file(**kwargs):
     logger.info('{}: Extracting file with unzip: {}'.format(kwargs['worker'], kwargs['filename']))
-    os.s
-    ystem("unzip {}/{}".format(kwargs['savepath'], kwargs['filename']))
+    os.system("unzip {}/{}".format(kwargs['savepath'], kwargs['filename']))
 
 
 def no_compression(**kwargs):

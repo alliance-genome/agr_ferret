@@ -1,7 +1,7 @@
 id:
   type: string
   required: True
-  allowed: [FB, WB, ONTOLOGY, GAF, GENEEEXPRESSIONATLASSITEMAP]
+  allowed: [FB, WB, ONTOLOGY, GAF, GENEEEXPRESSIONATLASSITEMAP, IMEX]
 contact_email:
   type: string
   required: True
@@ -21,6 +21,9 @@ datasets:
       filename:
         type: string
         required: True
+      filename_uncompressed:
+        type: string
+        required: False
       url:
         type: string
         required: True
@@ -30,7 +33,7 @@ datasets:
       compression:
         type: string
         required: False
-        allowed: [gzip]
+        allowed: [gzip, zip]
       status:
         type: string
         required: True
@@ -38,10 +41,8 @@ datasets:
       type:
         type: string
         required: True
-        allowed: [BGI, ONTOLOGY, GAF, GENEEEXPRESSIONATLASSITEMAP]
+        allowed: [BGI, ONTOLOGY, GAF, GENEEEXPRESSIONATLASSITEMAP, INTERACTION-SOURCE]
       subtype: 
         type: string
         required: True
-        allowed: [ZFIN, RGD, SGD, MGI, WB, HUMAN, FB, ZFA, ZFS, GO, MI, MMO, UBERON, ECO, WBBT, FBBT, MA, CL, DOID, MMUSDV, EMAPA, BSPO, FBCV, SO, WBLS, ECOMAP, MI]
-
-      
+        allowed: [ZFIN, RGD, SGD, MGI, WB, HUMAN, FB, ZFA, ZFS, GO, MI, MMO, UBERON, ECO, WBBT, FBBT, MA, CL, DOID, MMUSDV, EMAPA, BSPO, FBCV, SO, WBLS, ECOMAP, MI, IMEX]
