@@ -12,7 +12,7 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - NET=production
-      - ALLIANCE_RELEASE=2.3.0
+      - ALLIANCE_RELEASE=3.0.0
       - FMS_API_URL=https://fmsdev.alliancegenome.org
       - API_KEY=${API_KEY}
       - DEBUG=True
