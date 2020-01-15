@@ -154,3 +154,60 @@ datasets:
     type: ONTOLOGY
     subtype: MI
     status: active
+  -
+    id: HP
+    filename: hp.obo
+    url: http://purl.obolibrary.org/obo/hp.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: HP
+    status: active
+  -
+    id: PATO
+    filename: pato.obo
+    url: http://purl.obolibrary.org/obo/pato.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: PATO
+    status: active
+  -
+    id: MP
+    filename: .obo
+    url: http://purl.obolibrary.org/obo/mp.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: MP
+    status: active
+  -
+    id: WBPhenotype
+    filename: wbphenotype.obo
+    url: http://purl.obolibrary.org/obo/wbphenotype.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: WBPhenotype
+    status: active
+  -
+    id: APO
+    filename: apo.obo
+    url: http://purl.obolibrary.org/obo/apo.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: APO
+    status: active
+  -
+    id: DPO
+    filename: dpo.obo
+    url: http://purl.obolibrary.org/obo/dpo.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: DPO
+    status: active
+  -
+    id: FYPO
+    filename: fypo.obo
+    url: http://purl.obolibrary.org/obo/fypo.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: FYPO
+    status: active
+
