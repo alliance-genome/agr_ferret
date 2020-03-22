@@ -1,7 +1,7 @@
 id:
   type: string
   required: True
-  allowed: [FB, WB, ONTOLOGY, GAF, GENEEEXPRESSIONATLASSITEMAP, IMEX]
+  allowed: [FB, WB, ONTOLOGY, GAF, GENEEEXPRESSIONATLASSITEMAP, GEOXREF, IMEX]
 contact_email:
   type: string
   required: True
@@ -41,7 +41,7 @@ datasets:
       type:
         type: string
         required: True
-        allowed: [BGI, ONTOLOGY, GAF, GENEEEXPRESSIONATLASSITEMAP, INTERACTION-SOURCE]
+        allowed: [BGI, ONTOLOGY, GAF, GENEEEXPRESSIONATLASSITEMAP, GEOXREF, INTERACTION-SOURCE]
       subtype: 
         type: string
         required: True
