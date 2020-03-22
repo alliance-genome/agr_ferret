@@ -1,0 +1,62 @@
+id: GEOXREF
+contact_email: alliance-architecture@lists.stanford.edu 
+project_url: alliancegenome.org
+datasets:
+  -
+    id: ZFIN
+    filename: zfin.geo.xref.xml
+    url: "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?term=gene_geoprofiles[filter]+AND+Danio+rerio[Organism]&retmax=100000&db=gene"
+    filetype: xml
+    type: GEOXREF
+    subtype: ZFIN
+    status: active
+  -
+    id: SGD
+    filename: sgd.geo.xref.xml
+    url: "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?term=gene_geoprofiles[filter]+AND+Saccharomyces+cerevisiae[Organism]&retmax=100000&db=gene"
+    filetype: xml
+    type: GEOXREF
+    subtype: SGD
+    status: active
+  -
+    id: WB
+    filename: wb.geo.xref.xml
+    url: "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?term=gene_geoprofiles[filter]+AND+Caenorhabditis+elegans[Organism]&retmax=100000&db=gene"
+    filetype: xml
+    type: GEOXREF
+    subtype: WB
+    status: active
+  -
+    id: MGI
+    filename: mgi.geo.xref.xml
+    url: "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?term=gene_geoprofiles[filter]+AND+Mus+musculus[Organism]&retmax=100000&db=gene"
+
+    filetype: xml
+    type: GEOXREF
+    subtype: MGI
+    status: active
+  -
+    id: FB
+    filename: fb.geo.xref.xml
+    url: "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?term=gene_geoprofiles[filter]+AND+Drosophila+melanogaster[Organism]&retmax=100000&db=gene"
+    filetype: xml
+    type: GEOXREF
+    subtype: FB
+    status: active
+  -
+    id: RGD
+    filename: rgd.geo.xref.xml
+    url: "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?term=gene_geoprofiles[filter]+AND+Rattus+norvegicus[Organism]&retmax=100000&db=gene"
+    filetype: xml
+    type: GEOXREF
+    subtype: RGD
+    status: active
+  -
+    id: HUMAN
+    filename: human.geo.xref.axml
+    url: "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?term=gene_geoprofiles[filter]+AND+Homo+sapiens[Organism]&retmax=100000&db=gene"
+
+    filetype: xml
+    type: GEOXREF
+    subtype: HUMAN
+    status: active
