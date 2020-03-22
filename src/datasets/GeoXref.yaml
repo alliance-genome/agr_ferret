@@ -30,7 +30,6 @@ datasets:
     id: MGI
     filename: mgi.geo.xref.xml
     url: "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?term=gene_geoprofiles[filter]+AND+Mus+musculus[Organism]&retmax=100000&db=gene"
-
     filetype: xml
     type: GEOXREF
     subtype: MGI
@@ -55,7 +54,6 @@ datasets:
     id: HUMAN
     filename: human.geo.xref.axml
     url: "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?term=gene_geoprofiles[filter]+AND+Homo+sapiens[Organism]&retmax=100000&db=gene"
-
     filetype: xml
     type: GEOXREF
     subtype: HUMAN
