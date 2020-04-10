@@ -146,4 +146,11 @@ datasets:
     type: ONTOLOGY
     subtype: ECOMAP
     status: active
-
+  -
+    id: MI
+    filename: mi.obo
+    url: http://purl.obolibrary.org/obo/mi.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: MI
+    status: active
