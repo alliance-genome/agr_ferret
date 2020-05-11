@@ -19,6 +19,22 @@ datasets:
     subtype: BSPO
     status: active
   -
+    id: BTO
+    filename: bto.obo
+    url: http://purl.obolibrary.org/obo/bto.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: BTO
+    status: active
+  -
+    id: CHEBI
+    filename: chebi.obo
+    url: http://purl.obolibrary.org/obo/chebi.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: CHEBI
+    status: active
+  -
     id: CL
     filename: cl.obo
     url: http://purl.obolibrary.org/obo/cl.obo
