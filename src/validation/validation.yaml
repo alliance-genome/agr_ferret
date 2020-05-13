@@ -1,7 +1,7 @@
 id:
   type: string
   required: True
-  allowed: [FB, WB, ONTOLOGY, GAF, GENEEEXPRESSIONATLASSITEMAP, GEOXREF, IMEX]
+  allowed: [FB, WB, ONTOLOGY, GAF, GENEEEXPRESSIONATLASSITEMAP, GEOXREF, IMEX, BIOGRID]
 contact_email:
   type: string
   required: True
@@ -45,4 +45,4 @@ datasets:
       subtype: 
         type: string
         required: True
-        allowed: [ZFIN, RGD, SGD, MGI, WB, HUMAN, FB, ZFA, ZFS, GO, MI, MMO, UBERON, ECO, WBBT, FBBT, MA, CL, DOID, MMUSDV, EMAPA, BSPO, FBCV, SO, WBLS, ECOMAP, MI, IMEX, HP, MP, APO, WBPhenotype, PATO, DPO, FYPO, OBI, CHEBI, BTO]
+        allowed: [ZFIN, RGD, SGD, MGI, WB, HUMAN, FB, ZFA, ZFS, GO, MI, MMO, UBERON, ECO, WBBT, FBBT, MA, CL, DOID, MMUSDV, EMAPA, BSPO, FBCV, SO, WBLS, ECOMAP, MI, IMEX, HP, MP, APO, WBPhenotype, PATO, DPO, FYPO, OBI, CHEBI, BTO, BIOGRID, BIOGRID-TAB]
