@@ -3,92 +3,12 @@ contact_email: zfinadmn@zfin.org
 project_url: alliancegenome.org
 datasets:
   -
-    id: ZFA
-    filename: zfa.obo
-    url: http://purl.obolibrary.org/obo/zfa.obo
+    id: APO
+    filename: apo.obo
+    url: http://purl.obolibrary.org/obo/apo.obo
     filetype: obo
     type: ONTOLOGY
-    subtype: ZFA
-    status: active
-  -
-    id: GO
-    filename: go.obo
-    url: http://current.geneontology.org/ontology/go.obo
-    filetype: obo
-    type: ONTOLOGY
-    subtype: GO
-    status: active
-  -
-    id: DOID
-    filename: doid.obo
-    url: http://purl.obolibrary.org/obo/doid.obo
-    filetype: obo
-    type: ONTOLOGY
-    subtype: DOID
-    status: active
-  -
-    id: SO
-    filename: so.obo
-    url: http://purl.obolibrary.org/obo/so.obo
-    filetype: obo
-    type: ONTOLOGY
-    subtype: SO
-    status: active
-  -
-    id: ECO
-    filename: eco.obo
-    url: http://purl.obolibrary.org/obo/eco.obo
-    filetype: obo
-    type: ONTOLOGY
-    subtype: ECO
-    status: active
-  -
-    id: ZFS
-    filename: zfs.obo
-    url: http://purl.obolibrary.org/obo/zfs.obo
-    filetype: obo
-    type: ONTOLOGY
-    subtype: ZFS
-    status: active
-  -
-    id: WBBT
-    filename: wbbt.obo
-    url: http://purl.obolibrary.org/obo/wbbt.obo
-    filetype: obo
-    type: ONTOLOGY
-    subtype: WBBT
-    status: active
-  -
-    id: CL
-    filename: cl.obo
-    url: http://purl.obolibrary.org/obo/cl.obo
-    filetype: obo
-    type: ONTOLOGY
-    subtype: CL
-    status: active
-  -
-    id: FBCV
-    filename: fbcv.obo
-    url: http://purl.obolibrary.org/obo/fbcv.obo
-    filetype: obo
-    type: ONTOLOGY
-    subtype: FBCV
-    status: active
-  -
-    id: FBBT
-    filename: fbbt.obo
-    url: http://purl.obolibrary.org/obo/fbbt.obo
-    filetype: obo
-    type: ONTOLOGY
-    subtype: FBBT
-    status: active
-  -
-    id: MMUSDV
-    filename: mmusdv.obo
-    url: http://purl.obolibrary.org/obo/mmusdv.obo
-    filetype: obo
-    type: ONTOLOGY
-    subtype: MMUSDV
+    subtype: APO
     status: active
   -
     id: BSPO
@@ -99,100 +19,36 @@ datasets:
     subtype: BSPO
     status: active
   -
-    id: MMO
-    filename: mmo.obo
-    url: http://purl.obolibrary.org/obo/mmo.obo
+    id: BTO
+    filename: bto.obo
+    url: http://purl.obolibrary.org/obo/bto.obo
     filetype: obo
     type: ONTOLOGY
-    subtype: MMO
+    subtype: BTO
     status: active
   -
-    id: WBLS
-    filename: wbls.obo
-    url: http://purl.obolibrary.org/obo/wbls.obo
+    id: CHEBI
+    filename: chebi.obo
+    url: http://purl.obolibrary.org/obo/chebi.obo
     filetype: obo
     type: ONTOLOGY
-    subtype: WBLS
+    subtype: CHEBI
     status: active
   -
-    id: EMAPA
-    filename: emapa.obo
-    url: http://purl.obolibrary.org/obo/emapa.obo
+    id: CL
+    filename: cl.obo
+    url: http://purl.obolibrary.org/obo/cl.obo
     filetype: obo
     type: ONTOLOGY
-    subtype: EMAPA
+    subtype: CL
     status: active
   -
-    id: MA
-    filename: adult_mouse_anatomy.obo
-    url: http://www.informatics.jax.org/downloads/reports/adult_mouse_anatomy.obo
+    id: DOID
+    filename: doid.obo
+    url: http://purl.obolibrary.org/obo/doid.obo
     filetype: obo
     type: ONTOLOGY
-    subtype: MA
-    status: active
-  -
-    id: UBERON
-    filename: basic.obo
-    url: http://ontologies.berkeleybop.org/uberon/basic.obo
-    filetype: obo
-    type: ONTOLOGY
-    subtype: UBERON
-    status: active
-  -
-    id: ECOMAP
-    filename: gaf-eco-mapping.txt
-    url: http://purl.obolibrary.org/obo/eco/gaf-eco-mapping.txt
-    filetype: obo
-    type: ONTOLOGY
-    subtype: ECOMAP
-    status: active
-  -
-    id: MI
-    filename: mi.obo
-    url: http://purl.obolibrary.org/obo/mi.obo
-    filetype: obo
-    type: ONTOLOGY
-    subtype: MI
-    status: active
-  -
-    id: HP
-    filename: hp.obo
-    url: http://purl.obolibrary.org/obo/hp.obo
-    filetype: obo
-    type: ONTOLOGY
-    subtype: HP
-    status: active
-  -
-    id: PATO
-    filename: pato.obo
-    url: http://purl.obolibrary.org/obo/pato.obo
-    filetype: obo
-    type: ONTOLOGY
-    subtype: PATO
-    status: active
-  -
-    id: MP
-    filename: .obo
-    url: http://purl.obolibrary.org/obo/mp.obo
-    filetype: obo
-    type: ONTOLOGY
-    subtype: MP
-    status: active
-  -
-    id: WBPhenotype
-    filename: wbphenotype.obo
-    url: http://purl.obolibrary.org/obo/wbphenotype.obo
-    filetype: obo
-    type: ONTOLOGY
-    subtype: WBPhenotype
-    status: active
-  -
-    id: APO
-    filename: apo.obo
-    url: http://purl.obolibrary.org/obo/apo.obo
-    filetype: obo
-    type: ONTOLOGY
-    subtype: APO
+    subtype: DOID
     status: active
   -
     id: DPO
@@ -203,11 +59,171 @@ datasets:
     subtype: DPO
     status: active
   -
+    id: ECO
+    filename: eco.obo
+    url: http://purl.obolibrary.org/obo/eco.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: ECO
+    status: active
+  -
+    id: ECOMAP
+    filename: gaf-eco-mapping.txt
+    url: http://purl.obolibrary.org/obo/eco/gaf-eco-mapping.txt
+    filetype: obo
+    type: ONTOLOGY
+    subtype: ECOMAP
+    status: active
+  -
+    id: EMAPA
+    filename: emapa.obo
+    url: http://purl.obolibrary.org/obo/emapa.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: EMAPA
+    status: active
+  -
+    id: FBBT
+    filename: fbbt.obo
+    url: http://purl.obolibrary.org/obo/fbbt.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: FBBT
+    status: active
+  -
+    id: FBCV
+    filename: fbcv.obo
+    url: http://purl.obolibrary.org/obo/fbcv.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: FBCV
+    status: active
+  -
     id: FYPO
     filename: fypo.obo
     url: http://purl.obolibrary.org/obo/fypo.obo
     filetype: obo
     type: ONTOLOGY
     subtype: FYPO
+    status: active
+  -
+    id: GO
+    filename: go.obo
+    url: http://current.geneontology.org/ontology/go.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: GO
+    status: active
+  -
+    id: HP
+    filename: hp.obo
+    url: http://purl.obolibrary.org/obo/hp.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: HP
+    status: active
+  -
+    id: MA
+    filename: adult_mouse_anatomy.obo
+    url: http://www.informatics.jax.org/downloads/reports/adult_mouse_anatomy.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: MA
+    status: active
+  -
+    id: MMO
+    filename: mmo.obo
+    url: http://purl.obolibrary.org/obo/mmo.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: MMO
+    status: active
+  -
+    id: MMUSDV
+    filename: mmusdv.obo
+    url: http://purl.obolibrary.org/obo/mmusdv.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: MMUSDV
+    status: active
+  -
+    id: MP
+    filename: .obo
+    url: http://purl.obolibrary.org/obo/mp.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: MP
+    status: active
+  -
+    id: OBI
+    filename: obi.obo
+    url: http://purl.obolibrary.org/obo/obi.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: OBI
+    status: active
+  -
+    id: PATO
+    filename: pato.obo
+    url: http://purl.obolibrary.org/obo/pato.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: PATO
+    status: active
+  -
+    id: SO
+    filename: so.obo
+    url: http://purl.obolibrary.org/obo/so.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: SO
+    status: active
+  -
+    id: UBERON
+    filename: basic.obo
+    url: http://ontologies.berkeleybop.org/uberon/basic.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: UBERON
+    status: active
+  -
+    id: WBBT
+    filename: wbbt.obo
+    url: http://purl.obolibrary.org/obo/wbbt.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: WBBT
+    status: active
+  -
+    id: WBLS
+    filename: wbls.obo
+    url: http://purl.obolibrary.org/obo/wbls.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: WBLS
+    status: active
+  -
+    id: WBPhenotype
+    filename: wbphenotype.obo
+    url: http://purl.obolibrary.org/obo/wbphenotype.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: WBPhenotype
+    status: active
+  -
+    id: ZFA
+    filename: zfa.obo
+    url: http://purl.obolibrary.org/obo/zfa.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: ZFA
+    status: active
+  -
+    id: ZFS
+    filename: zfs.obo
+    url: http://purl.obolibrary.org/obo/zfs.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: ZFS
     status: active
 
