@@ -13,7 +13,7 @@ datasets:
   -
     id: BIOGRID-TAB
     filename: BIOGRID-ALL-LATEST.tab2.zip
-    url: https://downloads.thebiogrid.org/Download/BioGRID/Latest-Release/BIOGRID-ALL-LATEST.tab2.zip
+    url: https://downloads.thebiogrid.org/Download/BioGRID/Latest-Release/BIOGRID-ALL-LATEST.tab3.zip
     filetype: zip
     type: INTERACTION-SOURCE
     subtype: BIOGRID-TAB
