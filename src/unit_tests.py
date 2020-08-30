@@ -22,7 +22,7 @@ import unittest
 import unittest.mock
 
 # importing download from download.download works fine
-from download.download import download
+from download.download_module import download
 # don't need to get download from download.copydl, but later @unittest.mock.patch('download.download.urllib.request') won't work
 # from download.copydl import download		# this is not necessary, but if we don't want two copies of the module, we should use this instead
 
@@ -44,15 +44,25 @@ class TestFerret(unittest.TestCase):
         with open(self.tmp_generated_filepath, "w") as f:
             f.write("Delete me!")
 
+
+# UNCOMMENT to test if have python 3.6 installed
+#     @unittest.mock.patch('upload.upload.hashlib')
+#     def test_mock_upload_create_md5(self, mock_hashlib):
+#         process_name = 'unittest_mock_upload_create_md5'
+#         create_md5(process_name, self.download_filename, self.save_path)
+#         mock_hashlib.md5.update.assert_called()
+
+
 # mock.path download.download will cause "ImportError: No module named 'download.download.urllib'; 'download.download' is not a package"
 #     @unittest.mock.patch('download.download.urllib.request')	# UNCOMMENT to test failure
 # mock.patch download.copydl will use the copied module and work
-    @unittest.mock.patch('download.copydl.urllib.request')	# UNCOMMENT to test success
+    @unittest.mock.patch('download.download_module.urllib.request')	# UNCOMMENT to test success
     def test_mock_download(self, mock_urllib_request):
         process_name = 'unittest_mock_download_process'
-        url = 'http://tazendra.caltech.edu/~azurebrd/'
+        url = 'mock_url'
         download(process_name, url, self.download_filename, self.save_path)
         mock_urllib_request.urlretrieve.assert_called_with(url, os.path.join(self.save_path, self.download_filename))
+
 
     # live test of downloading a file
     def test_live_download(self):
