@@ -18,15 +18,17 @@
 
 
 import logging, coloredlogs, yaml, os, sys, urllib3, requests
-import unittest
-import unittest.mock
+import unittest, unittest.mock
 
-# importing download from download.download works fine
 from download.download_module import download
-# don't need to get download from download.copydl, but later @unittest.mock.patch('download.download.urllib.request') won't work
-# from download.copydl import download		# this is not necessary, but if we don't want two copies of the module, we should use this instead
+from upload.upload import create_md5, upload_file, upload_process
+from compression.compression import gunzip_file, unzip_file
 
-from upload import create_md5
+
+class ContextInfo(object):
+    def __init__(self):
+        config_file = open('src/config.yaml', 'r')
+        self.config = yaml.load(config_file, Loader=yaml.FullLoader)
 
 
 class TestFerret(unittest.TestCase):
@@ -37,6 +39,8 @@ class TestFerret(unittest.TestCase):
     generated_filename = 'test_generated_filename'
     tmp_download_filepath = os.path.join(save_path, download_filename)
     tmp_generated_filepath = os.path.join(save_path, generated_filename)
+    config_info = ContextInfo()
+    kwargs = {'worker': 'worker', 'filename': 'filename', 'savepath': 'savepath', 'file_suffix': 'file_suffix'}
 
 
     def setUp(self):
@@ -45,25 +49,46 @@ class TestFerret(unittest.TestCase):
             f.write("Delete me!")
 
 
-# UNCOMMENT to test if have python 3.6 installed
-#     @unittest.mock.patch('upload.upload.hashlib')
-#     def test_mock_upload_create_md5(self, mock_hashlib):
-#         process_name = 'unittest_mock_upload_create_md5'
-#         create_md5(process_name, self.download_filename, self.save_path)
-#         mock_hashlib.md5.update.assert_called()
-
-
-# mock.path download.download will cause "ImportError: No module named 'download.download.urllib'; 'download.download' is not a package"
-#     @unittest.mock.patch('download.download.urllib.request')	# UNCOMMENT to test failure
-# mock.patch download.copydl will use the copied module and work
-    @unittest.mock.patch('download.download_module.urllib.request')	# UNCOMMENT to test success
+    # mock tests
+    @unittest.mock.patch('download.download_module.urllib.request')
     def test_mock_download(self, mock_urllib_request):
         process_name = 'unittest_mock_download_process'
         url = 'mock_url'
         download(process_name, url, self.download_filename, self.save_path)
         mock_urllib_request.urlretrieve.assert_called_with(url, os.path.join(self.save_path, self.download_filename))
 
+    @unittest.mock.patch('upload.upload.hashlib')
+    def test_mock_upload_create_md5(self, mock_hashlib):
+        process_name = 'unittest_mock_upload_create_md5'
+        create_md5(process_name, self.download_filename, self.save_path)
+        mock_hashlib.md5().update.assert_called()
 
+    @unittest.mock.patch('upload.upload.requests')
+    def test_mock_upload_upload_file(self, mock_requests):
+        process_name = 'unittest_mock_upload_upload_file'
+        upload_file(process_name, self.download_filename, self.save_path, 'upload_file_prefix', self.config_info)
+        mock_requests.post.assert_called()
+
+    @unittest.mock.patch('upload.upload.json')
+    @unittest.mock.patch('upload.upload.urllib.request')
+    def test_mock_upload_upload_process_reqests(self, mock_urllib_request, mock_json):
+        process_name = 'unittest_mock_upload_upload_process_reqests'
+        upload_process(process_name, self.download_filename, self.save_path, 'data_type', 'data_sub_type', self.config_info)
+        mock_urllib_request.urlopen.assert_called()
+        mock_json.loads.assert_called()
+
+    @unittest.mock.patch('compression.compression.os')
+    def test_mock_compression_compression_gunzip_file(self, mock_os):
+        gunzip_file(**self.kwargs)
+        mock_os.system.assert_called()
+
+    @unittest.mock.patch('compression.compression.os')
+    def test_mock_compression_compression_unzip_file(self, mock_os):
+        unzip_file(**self.kwargs)
+        mock_os.system.assert_called()
+
+
+    # live tests
     # live test of downloading a file
     def test_live_download(self):
         process_name = 'unittest_live_download_process'
