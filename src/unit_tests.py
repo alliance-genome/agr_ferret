@@ -23,12 +23,7 @@ import unittest, unittest.mock
 from download.download_module import download
 from upload.upload import create_md5, upload_file, upload_process
 from compression.compression import gunzip_file, unzip_file
-
-
-class ContextInfo(object):
-    def __init__(self):
-        config_file = open('src/config.yaml', 'r')
-        self.config = yaml.load(config_file, Loader=yaml.FullLoader)
+from app import ContextInfo
 
 
 class TestFerret(unittest.TestCase):
