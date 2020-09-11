@@ -64,9 +64,10 @@ class TestFerret(unittest.TestCase):
         upload_file(process_name, self.download_filename, self.save_path, 'upload_file_prefix', self.config_info)
         mock_requests.post.assert_called()
 
+    @unittest.mock.patch('upload.upload.upload_file')
     @unittest.mock.patch('upload.upload.json')
     @unittest.mock.patch('upload.upload.urllib.request')
-    def test_mock_upload_upload_process_request(self, mock_urllib_request, mock_json):
+    def test_mock_upload_upload_process_request(self, mock_urllib_request, mock_json, mock_upload_file):
         process_name = 'unittest_mock_upload_upload_process_request'
         upload_process(process_name, self.download_filename, self.save_path, 'data_type', 'data_sub_type', self.config_info)
         mock_urllib_request.urlopen.assert_called()
