@@ -12,7 +12,7 @@
 # and a mock download test that has some issues with namespace.  When the namespace issue is worked out, create more
 # mock tests for the rest of the agr_ferret/ repo.
 # 
-# Run from src/ with 'python unit_tests.py'
+# Using python 3.6+ run from repo's root with 'python src/unit_tests.py'
 
 
 
