@@ -12,9 +12,33 @@ datasets:
     status: active
   -
     id: BIOGRID-TAB
-    filename: BIOGRID-ALL-LATEST.tab2.zip
+    filename: BIOGRID-ALL-LATEST.tab3.zip
     url: https://downloads.thebiogrid.org/Download/BioGRID/Latest-Release/BIOGRID-ALL-LATEST.tab3.zip
     filetype: zip
     type: INTERACTION-SOURCE
     subtype: BIOGRID-TAB
+    status: active
+  -
+    id: BIOGRID-ORCS-FB
+    filename: BIOGRID-ORCS-ALL-drosophila_melanogaster-LATEST.screens.tar.gz
+    url: https://downloads.thebiogrid.org/Download/BioGRID-ORCS/Latest-Release/BIOGRID-ORCS-ALL-drosophila_melanogaster-LATEST.screens.tar.gz
+    filetype: tar.gz
+    type: BIOGRID-ORCS
+    subtype: FB
+    status: active
+  -
+    id: BIOGRID-ORCS-MGI
+    filename: BIOGRID-ORCS-ALL-drosophila_melanogaster-LATEST.screens.tar.gz
+    url: https://downloads.thebiogrid.org/Download/BioGRID-ORCS/Latest-Release/BIOGRID-ORCS-ALL-mus_musculus-LATEST.screens.tar.gz
+    filetype: tar.gz
+    type: BIOGRID-ORCS
+    subtype: MGI
+    status: active
+  -
+    id: BIOGRID-ORCS-HUMAN
+    filename: BIOGRID-ORCS-ALL-drosophila_melanogaster-LATEST.screens.tar.gz
+    url: https://downloads.thebiogrid.org/Download/BioGRID-ORCS/Latest-Release/BIOGRID-ORCS-ALL-homo_sapiens-LATEST.screens.tar.gz
+    filetype: tar.gz
+    type: BIOGRID-ORCS
+    subtype: HUMAN
     status: active

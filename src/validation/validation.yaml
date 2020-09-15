@@ -41,7 +41,7 @@ datasets:
       type:
         type: string
         required: True
-        allowed: [BGI, ONTOLOGY, GAF, GENEEEXPRESSIONATLASSITEMAP, GEOXREF, INTERACTION-SOURCE]
+        allowed: [BGI, ONTOLOGY, GAF, GENEEEXPRESSIONATLASSITEMAP, GEOXREF, INTERACTION-SOURCE, BIOGRID-ORCS]
       subtype: 
         type: string
         required: True
