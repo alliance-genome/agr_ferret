@@ -1,4 +1,6 @@
-FROM agrdocker/agr_base_linux_env:latest
+ARG ALLIANCE_RELEASE=latest
+ARG REG=agrdocker
+FROM ${REG}/agr_base_linux_env:${ALLIANCE_RELEASE}
 
 WORKDIR /usr/src/app
 
