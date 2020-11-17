@@ -7,14 +7,11 @@
 # from .upload import create_md5
 # even though it's not used by the actual code in the agr_ferret/ repo.
 #
-#
 # A live download test, a live create_md5 test off of that file, a generated file and create_md5 test off of that file, 
 # and a mock download test that has some issues with namespace.  When the namespace issue is worked out, create more
 # mock tests for the rest of the agr_ferret/ repo.
 # 
 # Using python 3.6+ run from repo's root with 'python src/unit_tests.py'
-
-
 
 
 import logging, coloredlogs, yaml, os, sys, urllib3, requests

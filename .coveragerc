@@ -1,0 +1,8 @@
+[run]
+source = src
+parallel = True
+
+[paths]
+source =
+  src/
+  /usr/src/app/src/
