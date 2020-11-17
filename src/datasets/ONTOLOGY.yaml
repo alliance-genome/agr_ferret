@@ -109,7 +109,7 @@ datasets:
   -
     id: GO
     filename: go.obo
-    url: http://current.geneontology.org/ontology/go.obo
+    url: http://current.geneontology.org/ontology/go-basic.obo
     filetype: obo
     type: ONTOLOGY
     subtype: GO
