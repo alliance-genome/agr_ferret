@@ -2,13 +2,16 @@ language: python
 python:
     - "3.6"
 
+services:
+  - docker
+
 cache: pip
 
 before_install:
   - pip install awscli # Install AWS cli
   - export PATH=$PATH:$HOME/.local/bin # Add aws to the path.
   # Check that we can login. Requires AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environmental variables.
-  - eval $(aws ecr get-login --region us-east-1)
+  - eval $(aws ecr get-login --region us-east-1 --no-include-email)
   - docker build -t ferret .
 
 script:
