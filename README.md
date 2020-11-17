@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/alliance-genome/agr_ferret.svg?branch=master)](https://travis-ci.org/alliance-genome/agr_ferret)
 # agr_ferret
 pre-ETL data fetching software for the Alliance of Genome Resources.
 
