@@ -21,7 +21,7 @@ script:
 after_success:
   - pip install pyyaml coveralls
   # Copy the coverage results file from the Docker container to Travis.
-  - ./docker-volume-cp ferret_output:. .
+  - ./docker-volume-cp ferret_output:. ./
   #- docker cp ferret:/usr/src/app/$(docker exec -it ferret bash -c "ls -a .coverage.*" | tr -d '\r') ./
   # Merge the source paths between the newly copied coverage file and Travis.
   - coverage combine

@@ -11,9 +11,10 @@ if [[ ${#SOURCE_ARR[@]} -eq 2 && ${#DEST_ARR[@]} -eq 1 ]]; then
         VOL_PATH=${SOURCE_ARR[1]}
         HOST_PATH=${DEST_ARR[0]}
 
+        echo "Attempting to copy volume data to local host path."
         docker container create --name docker_volume_cp -v $VOL:/volume hello-world
         CMD="docker cp docker_volume_cp:/volume/$VOL_PATH $HOST_PATH"
-        #echo "$CMD"
+        echo "$CMD"
         $CMD
         docker rm docker_volume_cp
 
@@ -22,9 +23,10 @@ elif [[ ${#SOURCE_ARR[@]} -eq 1 && ${#DEST_ARR[@]} -eq 2 ]]; then
         VOL_PATH=${DEST_ARR[1]}
         HOST_PATH=${SOURCE_ARR[0]}
 
+        echo "Attempting to copy host path data to volume."
         docker container create --name docker_volume_cp -v $VOL:/volume hello-world
         CMD="docker cp $HOST_PATH docker_volume_cp:/volume/$VOL_PATH"
-        #echo "$CMD"
+        echo "$CMD"
         $CMD
         docker rm docker_volume_cp
 else
