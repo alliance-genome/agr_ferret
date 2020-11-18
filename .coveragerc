@@ -1,11 +1,9 @@
 [run]
 source = src
 parallel = True
+data_file = coverage_output/.coverage
 
 [paths]
 source =
   src/
   /usr/src/app/src/
-
-[run]
-data_file = coverage_output/.coverage
