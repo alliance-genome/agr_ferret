@@ -10,6 +10,8 @@ RUN pip3 install -r requirements.txt
 
 RUN mkdir tmp
 
+RUN mkdir coverage_output
+
 ADD . .
 
 CMD ["python3", "-u", "src/app.py"]

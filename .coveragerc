@@ -6,3 +6,6 @@ parallel = True
 source =
   src/
   /usr/src/app/src/
+
+[run]
+data_file = coverage_output/.coverage

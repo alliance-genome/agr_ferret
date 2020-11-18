@@ -15,12 +15,14 @@ before_install:
   - docker build -t ferret .
 
 script:
-  - docker run -t ferret coverage run src/unit_tests.py
+  # Run the ferret unit tests and mount a volume for gathering the coverage_output
+  - docker run -v ferret_output:/usr/src/app/coverage_output -t ferret coverage run src/unit_tests.py
 
 after_success:
   - pip install pyyaml coveralls
   # Copy the coverage results file from the Docker container to Travis.
-  - docker cp ferret:/usr/src/app/$(docker exec -it ferret bash -c "ls -a .coverage.*" | tr -d '\r') ./
+  - docker-volume-cp ferret_output:. .
+  #- docker cp ferret:/usr/src/app/$(docker exec -it ferret bash -c "ls -a .coverage.*" | tr -d '\r') ./
   # Merge the source paths between the newly copied coverage file and Travis.
   - coverage combine
   # Upload to coveralls.
