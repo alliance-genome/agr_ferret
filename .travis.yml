@@ -8,6 +8,7 @@ services:
 cache: pip
 
 before_install:
+  - mkdir volume_mount
   - pip install awscli # Install AWS cli
   - export PATH=$PATH:$HOME/.local/bin # Add aws to the path.
   # Check that we can login. Requires AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environmental variables.
@@ -20,6 +21,8 @@ script:
 
 after_success:
   - pip install pyyaml coveralls
+  # Check the contents of the docker volume.
+  - docker run --rm -i -v=ferret_output:/home/travis/volume_mount busybox find /home/travis/volume_mount
   # Copy the coverage results file from the Docker container to Travis.
   - ./docker-volume-cp ferret_output:. ./
   #- docker cp ferret:/usr/src/app/$(docker exec -it ferret bash -c "ls -a .coverage.*" | tr -d '\r') ./
