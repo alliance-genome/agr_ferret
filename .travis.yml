@@ -26,6 +26,8 @@ after_success:
   # Copy the coverage results file from the Docker container to Travis.
   - ./docker-volume-cp ferret_output:. /home/travis/
   - ls -alh /home/travis/
+  - pwd
+  - ls -alh $PWD
   #- docker cp ferret:/usr/src/app/$(docker exec -it ferret bash -c "ls -a .coverage.*" | tr -d '\r') ./
   # Merge the source paths between the newly copied coverage file and Travis.
   - coverage combine
