@@ -13,7 +13,7 @@ def unzip_file(**kwargs):
     os.system("unzip {}/{} -d {}".format(kwargs['savepath'], kwargs['filename'], kwargs['savepath']))
 
 
-def no_compression(**kwargs):
+def no_compression(**kwargs):	# pragma: no cover
     logger.info('{}: File suffix \'{}\' not found in decompression dictionary.'.format(kwargs['worker'], kwargs['file_suffix']))
     logger.info('{}: Skipping decompression for {}.'.format(kwargs['worker'], kwargs['filename']))
     pass
