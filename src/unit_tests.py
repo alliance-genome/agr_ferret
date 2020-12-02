@@ -123,17 +123,17 @@ class TestFerret(unittest.TestCase):
 
     @unittest.mock.patch('compression.compression.gunzip_file')
     def test_mock_compression_compression_decompress_gunzip_file(self, mock_gunzip_file):
-        decompress(self.kwargs['worker'], 'filename.gz', self.kwargs['savepath'])
+        decompress('worker', 'filename.gz', 'savepath')
         mock_gunzip_file.assert_called()
 
     @unittest.mock.patch('compression.compression.unzip_file')
     def test_mock_compression_compression_decompress_unzip_file(self, mock_unzip_file):
-        decompress(self.kwargs['worker'], 'filename.zip', self.kwargs['savepath'])
+        decompress('worker', 'filename.zip', 'savepath')
         mock_unzip_file.assert_called()
 
     @unittest.mock.patch('compression.compression.no_compression')
     def test_mock_compression_compression_decompress_no_compression(self, mock_no_compression):
-        decompress(self.kwargs['worker'], 'filename', self.kwargs['savepath'])
+        decompress('worker', 'filename', 'savepath')
         mock_no_compression.assert_called()
 
 
