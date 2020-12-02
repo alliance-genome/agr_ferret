@@ -117,7 +117,7 @@ class TestFerret(unittest.TestCase):
         mock_os.system.assert_called()
 
     @unittest.mock.patch('compression.compression.logger')
-    def test_mock_compression_compression_unzip_file(self, mock_logger):
+    def test_mock_compression_compression_logger(self, mock_logger):
         no_compression(**self.kwargs)
         mock_logger.info.assert_called_with('{}: Skipping decompression for {}.'.format(self.kwargs['worker'], self.kwargs['filename']))
 
