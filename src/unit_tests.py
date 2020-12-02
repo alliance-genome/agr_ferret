@@ -15,24 +15,41 @@
 
 
 import logging, coloredlogs, yaml, os, sys, urllib3, requests
+import multiprocessing, time, glob, argparse
 import unittest, unittest.mock
 
 from download.download_module import download
 from upload.upload import create_md5, upload_file, upload_process
-from compression.compression import gunzip_file, unzip_file
-from app import ContextInfo
+from compression.compression import gunzip_file, unzip_file, no_compression
+
+# from download import *
+# from upload import *
+# from compression import *
+
+from app import ContextInfo, ProcessManager, FileManager, process_files
+
+# from download import *
+# from upload import *
 
 
 class TestFerret(unittest.TestCase):
     '''Testing the ferret'''
 
     save_path = '/usr/src/app/tmp'
-    download_filename = 'test_download_filename'
     generated_filename = 'test_generated_filename'
-    tmp_download_filepath = os.path.join(save_path, download_filename)
     tmp_generated_filepath = os.path.join(save_path, generated_filename)
     config_info = ContextInfo()
     kwargs = {'worker': 'worker', 'filename': 'filename', 'savepath': 'savepath', 'file_suffix': 'file_suffix'}
+
+# # new
+#     dataset_info = FileManager().return_datasets()
+#     process_manager = ProcessManager(dataset_info, config_info)
+# 
+#     manager = multiprocessing.Manager()
+# #     dataset_info = manager.list()  # A shared list to track downloading URLs.
+#     shared_list = manager.list()  # A shared list to track downloading URLs.
+#     finished_list = manager.list()  # A shared list of finished URLs.
+# # end new
 
 
     def setUp(self):
@@ -40,33 +57,51 @@ class TestFerret(unittest.TestCase):
         with open(self.tmp_generated_filepath, "w") as f:
             f.write("Delete me!")
 
+    # in progress
+# #     @unittest.mock.patch('app.process_files')
+# #     @unittest.mock.patch('upload.upload.json')
+# #     @unittest.mock.patch('upload.upload.urllib.request')
+# #     @unittest.mock.patch('upload.upload_module.upload_process')
+# 
+# #     @unittest.mock.patch('app.upload_process')
+# # this doesn't work, NameError: name 'upload_process' is not defined
+#     @unittest.mock.patch('app.download')
+#     def test_mock_process_files(self, mock_app_download):
+# #     def test_mock_process_files(self, mock_app_download, mock_app_upload_process):
+#         process_name = 'unittest_mock_process_files'
+#         dataset = self.dataset_info[0]
+#         process_files(dataset, self.shared_list, self.finished_list, self.config_info)
+# #         upload_process(process_name, self.generated_filename, self.save_path, 'data_type', 'data_sub_type', self.config_info)
+# #         mock_urllib_request.urlopen.assert_called()
+# #         mock_json.loads.assert_called()
+
+
 
     # mock tests
     @unittest.mock.patch('download.download_module.urllib.request')
     def test_mock_download(self, mock_urllib_request):
         process_name = 'unittest_mock_download_process'
         url = 'mock_url'
-        download(process_name, url, self.download_filename, self.save_path)
-        mock_urllib_request.urlretrieve.assert_called_with(url, os.path.join(self.save_path, self.download_filename))
+        download(process_name, url, self.generated_filename, self.save_path)
+        mock_urllib_request.urlretrieve.assert_called_with(url, os.path.join(self.save_path, self.generated_filename))
 
     @unittest.mock.patch('upload.upload.hashlib')
     def test_mock_upload_create_md5(self, mock_hashlib):
         process_name = 'unittest_mock_upload_create_md5'
-        create_md5(process_name, self.download_filename, self.save_path)
+        create_md5(process_name, self.generated_filename, self.save_path)
         mock_hashlib.md5().update.assert_called()
 
     @unittest.mock.patch('upload.upload.requests')
     def test_mock_upload_upload_file(self, mock_requests):
         process_name = 'unittest_mock_upload_upload_file'
-        upload_file(process_name, self.download_filename, self.save_path, 'upload_file_prefix', self.config_info)
+        upload_file(process_name, self.generated_filename, self.save_path, 'upload_file_prefix', self.config_info)
         mock_requests.post.assert_called()
 
-    @unittest.mock.patch('upload.upload.upload_file')
     @unittest.mock.patch('upload.upload.json')
     @unittest.mock.patch('upload.upload.urllib.request')
-    def test_mock_upload_upload_process_request(self, mock_urllib_request, mock_json, mock_upload_file):
+    def test_mock_upload_upload_process_request(self, mock_urllib_request, mock_json):
         process_name = 'unittest_mock_upload_upload_process_request'
-        upload_process(process_name, self.download_filename, self.save_path, 'data_type', 'data_sub_type', self.config_info)
+        upload_process(process_name, self.generated_filename, self.save_path, 'data_type', 'data_sub_type', self.config_info)
         mock_urllib_request.urlopen.assert_called()
         mock_json.loads.assert_called()
 
@@ -80,30 +115,23 @@ class TestFerret(unittest.TestCase):
         unzip_file(**self.kwargs)
         mock_os.system.assert_called()
 
+    @unittest.mock.patch('compression.compression.logger')
+    def test_mock_compression_compression_unzip_file(self, mock_logger):
+        no_compression(**self.kwargs)
+        mock_logger.info.assert_called_with('{}: Skipping decompression for {}.'.format(self.kwargs['worker'], self.kwargs['filename']))
+
+
+
+
 
     # live tests
-    # live test of downloading a file
-    def test_live_download(self):
-        process_name = 'unittest_live_download_process'
-        url = 'http://tazendra.caltech.edu/~azurebrd/'
-        download(process_name, url, self.download_filename, self.save_path)
-        self.assertTrue(os.path.isfile(self.tmp_download_filepath), "File downloaded")
-#         os.remove(tmp_download_filepath)	# to remove downloaded file
-
-    # live test of creating an md5 of a file downloaded to the filesystem
-    def test_live_upload_create_md5(self):
-        worker = 'unittest_upload_create_md5_worker'
-        generated_md5 = create_md5(worker, self.download_filename, self.save_path)
-        default_md5 = '2215a61e7f8147cd79edbf6b8f4ebb32'
-        self.assertEqual(default_md5, generated_md5)
-#         os.remove(tmp_download_filepath)	# to remove downloaded file
-
     # test create_md5 function off of a file created in the filesystem by this module's setUp 
     def test_generated_upload_create_md5(self):
         worker = 'unittest_upload_create_md5_worker'
         generated_md5 = create_md5(worker, self.generated_filename, self.save_path)
         default_md5 = '58eb258168833030d56510041ac70ebb'
         self.assertEqual(default_md5, generated_md5)
+#         os.remove(tmp_generated_filepath)	# to remove downloaded file
 
 
 if __name__ == '__main__':
