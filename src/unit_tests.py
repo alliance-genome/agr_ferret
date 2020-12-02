@@ -20,7 +20,8 @@ import unittest, unittest.mock
 
 from download.download_module import download
 from upload.upload import create_md5, upload_file, upload_process
-from compression.compression import gunzip_file, unzip_file, no_compression
+# from upload.upload_module import create_md5, upload_file, upload_process
+from compression.compression import gunzip_file, unzip_file, no_compression, decompress
 
 # from download import *
 # from upload import *
@@ -120,7 +121,20 @@ class TestFerret(unittest.TestCase):
         no_compression(**self.kwargs)
         mock_logger.info.assert_called_with('{}: Skipping decompression for {}.'.format(self.kwargs['worker'], self.kwargs['filename']))
 
+    @unittest.mock.patch('compression.compression.gunzip_file')
+    def test_mock_compression_compression_decompress_gunzip_file(self, mock_gunzip_file):
+        decompress(self.kwargs['worker'], 'filename.gz', self.kwargs['savepath'])
+        mock_gunzip_file.assert_called()
 
+    @unittest.mock.patch('compression.compression.unzip_file')
+    def test_mock_compression_compression_decompress_unzip_file(self, mock_unzip_file):
+        decompress(self.kwargs['worker'], 'filename.zip', self.kwargs['savepath'])
+        mock_unzip_file.assert_called()
+
+    @unittest.mock.patch('compression.compression.no_compression')
+    def test_mock_compression_compression_decompress_no_compression(self, mock_no_compression):
+        decompress(self.kwargs['worker'], 'filename', self.kwargs['savepath'])
+        mock_no_compression.assert_called()
 
 
 
@@ -131,7 +145,7 @@ class TestFerret(unittest.TestCase):
         generated_md5 = create_md5(worker, self.generated_filename, self.save_path)
         default_md5 = '58eb258168833030d56510041ac70ebb'
         self.assertEqual(default_md5, generated_md5)
-#         os.remove(tmp_generated_filepath)	# to remove downloaded file
+        # os.remove(tmp_generated_filepath)	# to remove downloaded file
 
 
 if __name__ == '__main__':
