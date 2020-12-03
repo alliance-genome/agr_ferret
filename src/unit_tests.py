@@ -100,11 +100,54 @@ class TestFerret(unittest.TestCase):
 
     @unittest.mock.patch('upload.upload.json')
     @unittest.mock.patch('upload.upload.urllib.request')
-    def test_mock_upload_upload_process_request(self, mock_urllib_request, mock_json):
-        process_name = 'unittest_mock_upload_upload_process_request'
+    @unittest.mock.patch('upload.upload.upload_file')
+    @unittest.mock.patch('upload.upload.create_md5')
+    def test_mock_upload_upload_process_not_chip_data(self, mock_create_md5, mock_upload_file, mock_urllib_request, mock_json):
+        process_name = 'unittest_mock_upload_upload_process_not_chip_data'
+        mock_create_md5.return_value = 'generated_dummy'
+        mock_json.loads.return_value = None
         upload_process(process_name, self.generated_filename, self.save_path, 'data_type', 'data_sub_type', self.config_info)
-        mock_urllib_request.urlopen.assert_called()
-        mock_json.loads.assert_called()
+        mock_upload_file.assert_called()
+
+    @unittest.mock.patch('upload.upload.json')
+    @unittest.mock.patch('upload.upload.urllib.request')
+    @unittest.mock.patch('upload.upload.create_md5')
+    def test_mock_upload_upload_process_chip_data_existing_same(self, mock_create_md5, mock_urllib_request, mock_json):
+        process_name = 'unittest_mock_upload_upload_process_chip_data_existing_same'
+        mock_create_md5.return_value = 'same_md5Sum'
+        mock_json.loads.return_value = [{'md5Sum': 'same_md5Sum'}]
+        upload_process(process_name, self.generated_filename, self.save_path, 'data_type', 'data_sub_type', self.config_info)
+
+    @unittest.mock.patch('upload.upload.json')
+    @unittest.mock.patch('upload.upload.urllib.request')
+    @unittest.mock.patch('upload.upload.upload_file')
+    @unittest.mock.patch('upload.upload.create_md5')
+    def test_mock_upload_upload_process_chip_data_existing_different(self, mock_create_md5, mock_upload_file, mock_urllib_request, mock_json):
+        process_name = 'unittest_mock_upload_upload_process_chip_data_existing_different'
+        mock_create_md5.return_value = 'generated_dummy'
+        mock_json.loads.return_value = [{'md5Sum': 'existing_dummy'}]
+        upload_process(process_name, self.generated_filename, self.save_path, 'data_type', 'data_sub_type', self.config_info)
+        mock_upload_file.assert_called()
+
+    @unittest.mock.patch('upload.upload.json')
+    @unittest.mock.patch('upload.upload.urllib.request')
+    @unittest.mock.patch('upload.upload.upload_file')
+    @unittest.mock.patch('upload.upload.create_md5')
+    def test_mock_upload_upload_process_chip_data_not_existing(self, mock_create_md5, mock_upload_file, mock_urllib_request, mock_json):
+        process_name = 'unittest_mock_upload_upload_process_chip_data_not_existing'
+        mock_create_md5.return_value = 'generated_dummy'
+        mock_json.loads.return_value = [{'NO-md5Sum': 'existing_dummy'}]
+        upload_process(process_name, self.generated_filename, self.save_path, 'data_type', 'data_sub_type', self.config_info)
+        mock_upload_file.assert_called()
+
+# delete this if coverage is 100%
+#     @unittest.mock.patch('upload.upload.json')
+#     @unittest.mock.patch('upload.upload.urllib.request')
+#     def test_mock_upload_upload_process_chip_data_existing_md5_not_generated(self, mock_urllib_request, mock_json):
+#         process_name = 'unittest_mock_upload_upload_process_chip_data_existing_md5_not_generated'
+#         upload_process(process_name, self.generated_filename, self.save_path, 'data_type', 'data_sub_type', self.config_info)
+#         mock_urllib_request.urlopen.assert_called()
+#         mock_json.loads.assert_called()
 
     @unittest.mock.patch('compression.compression.os')
     def test_mock_compression_compression_gunzip_file(self, mock_os):

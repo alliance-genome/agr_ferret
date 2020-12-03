@@ -1,1 +1,1 @@
-from app import ContextInfo
+from app import ContextInfo	# pragma: no cover
