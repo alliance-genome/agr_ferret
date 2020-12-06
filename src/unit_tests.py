@@ -20,7 +20,6 @@ import unittest, unittest.mock
 
 from download.download_module import download
 from upload.upload import create_md5, upload_file, upload_process
-# from upload.upload_module import create_md5, upload_file, upload_process
 from compression.compression import gunzip_file, unzip_file, no_compression, decompress
 
 # from download import *
@@ -43,13 +42,13 @@ class TestFerret(unittest.TestCase):
     kwargs = {'worker': 'worker', 'filename': 'filename', 'savepath': 'savepath', 'file_suffix': 'file_suffix'}
 
 # # new
+    manager = multiprocessing.Manager()
+    shared_list = manager.list()  # A shared list to track downloading URLs.
+    finished_list = manager.list()  # A shared list of finished URLs.
+
 #     dataset_info = FileManager().return_datasets()
 #     process_manager = ProcessManager(dataset_info, config_info)
 # 
-#     manager = multiprocessing.Manager()
-# #     dataset_info = manager.list()  # A shared list to track downloading URLs.
-#     shared_list = manager.list()  # A shared list to track downloading URLs.
-#     finished_list = manager.list()  # A shared list of finished URLs.
 # # end new
 
 
@@ -76,9 +75,15 @@ class TestFerret(unittest.TestCase):
 # #         mock_urllib_request.urlopen.assert_called()
 # #         mock_json.loads.assert_called()
 
-
-
     # mock tests
+    @unittest.mock.patch('app.download')
+    @unittest.mock.patch('app.upload_process')
+    def test_mock_process_files(self, mock_app_upload_process, mock_app_download):
+        process_name = 'unittest_mock_process_files'
+        dataset = {'status': 'active', 'url': 'url', 'filename': 'filename', 'type': 'datatype', 'subtype': 'datasubtype'}
+        process_files(dataset, self.shared_list, self.finished_list, self.config_info)
+        mock_app_upload_process.assert_called()
+
     @unittest.mock.patch('download.download_module.urllib.request')
     def test_mock_download(self, mock_urllib_request):
         process_name = 'unittest_mock_download_process'
@@ -139,15 +144,6 @@ class TestFerret(unittest.TestCase):
         mock_json.loads.return_value = [{'NO-md5Sum': 'existing_dummy'}]
         upload_process(process_name, self.generated_filename, self.save_path, 'data_type', 'data_sub_type', self.config_info)
         mock_upload_file.assert_called()
-
-# delete this if coverage is 100%
-#     @unittest.mock.patch('upload.upload.json')
-#     @unittest.mock.patch('upload.upload.urllib.request')
-#     def test_mock_upload_upload_process_chip_data_existing_md5_not_generated(self, mock_urllib_request, mock_json):
-#         process_name = 'unittest_mock_upload_upload_process_chip_data_existing_md5_not_generated'
-#         upload_process(process_name, self.generated_filename, self.save_path, 'data_type', 'data_sub_type', self.config_info)
-#         mock_urllib_request.urlopen.assert_called()
-#         mock_json.loads.assert_called()
 
     @unittest.mock.patch('compression.compression.os')
     def test_mock_compression_compression_gunzip_file(self, mock_os):
