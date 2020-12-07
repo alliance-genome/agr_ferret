@@ -129,23 +129,24 @@ class TestFerret(unittest.TestCase):
         process_files(dataset, shared_list, finished_list, None)
         mock_app_upload_process.assert_called()
 
-    @unittest.mock.patch('time.sleep')
+    # this one's slow because we can't make mock sleep, otherwise first process won't wait for appending before second process
+    # can't assert call on sleep because not mocked. not sure why assert call on logger is not working
     @unittest.mock.patch('app.download')
     @unittest.mock.patch('app.upload_process')
-    def test_mock_process_files_shared_list(self, mock_app_upload_process, mock_app_download, mock_time_sleep):
+    def test_mock_process_files_shared_list(self, mock_app_upload_process, mock_app_download):
         process_name = 'unittest_mock_process_files_shared_list'
         dataset = {'status': 'active', 'url': 'url', 'filename': 'filename', 'type': 'datatype', 'subtype': 'datasubtype'}
-        pool = multiprocessing.Pool(processes=2)  # Create our pool.
+        pool = multiprocessing.Pool(processes=2)        # Create our pool.
         manager = multiprocessing.Manager()
-        shared_list = manager.list()            # A shared list to track downloading URLs.
-        finished_list = manager.list()          # A shared list of finished URLs.
+        shared_list = manager.list()                    # A shared list to track downloading URLs.
+        finished_list = manager.list()                  # A shared list of finished URLs.
         shared_list.append(dataset['url'])
         pool.apply_async( process_files, (dataset, shared_list, finished_list, None))
+        time.sleep(3)
         finished_list.append(dataset['url'])
         pool.apply_async( process_files, (dataset, shared_list, finished_list, None))
         pool.close()
         pool.join()
-        mock_time_sleep.assert_called()
 
     @unittest.mock.patch('download.download_module.urllib.request')
     def test_mock_download(self, mock_urllib_request):
