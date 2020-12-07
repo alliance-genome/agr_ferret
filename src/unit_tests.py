@@ -129,8 +129,9 @@ class TestFerret(unittest.TestCase):
         process_files(dataset, shared_list, finished_list, None)
         mock_app_upload_process.assert_called()
 
-    # this one's slow because we can't make mock sleep, otherwise first process won't wait for appending before second process
-    # can't assert call on sleep because not mocked. not sure why assert call on logger is not working
+    # this one's slow because we can't make mock sleep, otherwise first process won't wait for appending before second process.
+    # can't assert call on sleep because not mocked. not sure why assert call on logger is not working.
+    # travis shows that the 'elif url in shared_list' section is getting executed, but coverage has it red, don't know why.
     @unittest.mock.patch('app.download')
     @unittest.mock.patch('app.upload_process')
     def test_mock_process_files_shared_list(self, mock_app_upload_process, mock_app_download):
