@@ -18,6 +18,8 @@ import logging, coloredlogs, yaml, os, sys, urllib3, requests
 import multiprocessing, time, glob, argparse
 import unittest, unittest.mock
 
+import argparse
+
 from download.download_module import download
 from upload.upload import create_md5, upload_file, upload_process
 from compression.compression import gunzip_file, unzip_file, no_compression, decompress
@@ -42,9 +44,9 @@ class TestFerret(unittest.TestCase):
     kwargs = {'worker': 'worker', 'filename': 'filename', 'savepath': 'savepath', 'file_suffix': 'file_suffix'}
 
 # # new
-    manager = multiprocessing.Manager()
-    shared_list = manager.list()  # A shared list to track downloading URLs.
-    finished_list = manager.list()  # A shared list of finished URLs.
+#     manager = multiprocessing.Manager()
+#     shared_list = manager.list()  # A shared list to track downloading URLs.
+#     finished_list = manager.list()  # A shared list of finished URLs.
 
 #     dataset_info = FileManager().return_datasets()
 #     process_manager = ProcessManager(dataset_info, config_info)
@@ -84,7 +86,7 @@ class TestFerret(unittest.TestCase):
         process_name = 'unittest_mock_app_main'
         main()
         mock_process_manager.assert_called()
-
+ 
     @unittest.mock.patch('sys.exit')
     @unittest.mock.patch('app.ContextInfo')
     @unittest.mock.patch('app.FileManager.return_datasets')
@@ -96,10 +98,51 @@ class TestFerret(unittest.TestCase):
 
     @unittest.mock.patch('app.download')
     @unittest.mock.patch('app.upload_process')
-    def test_mock_process_files(self, mock_app_upload_process, mock_app_download):
-        process_name = 'unittest_mock_process_files'
+    def test_mock_process_files_url_not_in(self, mock_app_upload_process, mock_app_download):
+        process_name = 'unittest_mock_process_files_url_not_in'
+        manager = multiprocessing.Manager()
+        shared_list = manager.list() 
+        finished_list = manager.list() 
         dataset = {'status': 'active', 'url': 'url', 'filename': 'filename', 'type': 'datatype', 'subtype': 'datasubtype'}
-        process_files(dataset, self.shared_list, self.finished_list, self.config_info)
+        process_files(dataset, shared_list, finished_list, None)
+        mock_app_upload_process.assert_called()
+
+    @unittest.mock.patch('app.decompress')
+    @unittest.mock.patch('app.download')
+    @unittest.mock.patch('app.upload_process')
+    def test_mock_process_files_uncompressed(self, mock_app_upload_process, mock_app_download, mock_decompress):
+        process_name = 'unittest_mock_process_files_uncompressed'
+        manager = multiprocessing.Manager()
+        shared_list = manager.list() 
+        finished_list = manager.list() 
+        dataset = {'status': 'active', 'url': 'url', 'filename': 'filename', 'type': 'datatype', 'subtype': 'datasubtype', 'filename_uncompressed': 'wb.gaf'}
+        process_files(dataset, shared_list, finished_list, None)
+        mock_decompress.assert_called()
+
+    @unittest.mock.patch('app.download')
+    @unittest.mock.patch('app.upload_process')
+    def test_mock_process_files_finished_list(self, mock_app_upload_process, mock_app_download):
+        process_name = 'unittest_mock_process_files_finished_list'
+        dataset = {'status': 'active', 'url': 'url', 'filename': 'filename', 'type': 'datatype', 'subtype': 'datasubtype'}
+        manager = multiprocessing.Manager()
+        shared_list = manager.list()  # A shared list to track downloading URLs.
+        finished_list = manager.list()  # A shared list of finished URLs.
+        finished_list.append(dataset['url'])
+        process_files(dataset, shared_list, finished_list, None)
+        mock_app_upload_process.assert_called()
+
+    @unittest.mock.patch('time.sleep')
+    @unittest.mock.patch('app.download')
+    @unittest.mock.patch('app.upload_process')
+    def test_mock_process_files_shared_list(self, mock_app_upload_process, mock_app_download, mock_time):
+        process_name = 'unittest_mock_process_files_shared_list'
+        dataset = {'status': 'active', 'url': 'url', 'filename': 'filename', 'type': 'datatype', 'subtype': 'datasubtype'}
+        manager = multiprocessing.Manager()
+        shared_list = manager.list()  # A shared list to track downloading URLs.
+        shared_list.append(dataset['url'])
+        finished_list = manager.list()  # A shared list of finished URLs.
+        finished_list.append(dataset['url'])
+        process_files(dataset, shared_list, finished_list, None)
         mock_app_upload_process.assert_called()
 
     @unittest.mock.patch('download.download_module.urllib.request')
@@ -108,19 +151,19 @@ class TestFerret(unittest.TestCase):
         url = 'mock_url'
         download(process_name, url, self.generated_filename, self.save_path)
         mock_urllib_request.urlretrieve.assert_called_with(url, os.path.join(self.save_path, self.generated_filename))
-
+ 
     @unittest.mock.patch('upload.upload.hashlib')
     def test_mock_upload_create_md5(self, mock_hashlib):
         process_name = 'unittest_mock_upload_create_md5'
         create_md5(process_name, self.generated_filename, self.save_path)
         mock_hashlib.md5().update.assert_called()
-
+ 
     @unittest.mock.patch('upload.upload.requests')
     def test_mock_upload_upload_file(self, mock_requests):
         process_name = 'unittest_mock_upload_upload_file'
         upload_file(process_name, self.generated_filename, self.save_path, 'upload_file_prefix', self.config_info)
         mock_requests.post.assert_called()
-
+ 
     @unittest.mock.patch('upload.upload.json')
     @unittest.mock.patch('upload.upload.urllib.request')
     @unittest.mock.patch('upload.upload.upload_file')
@@ -131,7 +174,7 @@ class TestFerret(unittest.TestCase):
         mock_json.loads.return_value = None
         upload_process(process_name, self.generated_filename, self.save_path, 'data_type', 'data_sub_type', self.config_info)
         mock_upload_file.assert_called()
-
+ 
     @unittest.mock.patch('upload.upload.json')
     @unittest.mock.patch('upload.upload.urllib.request')
     @unittest.mock.patch('upload.upload.create_md5')
@@ -140,7 +183,7 @@ class TestFerret(unittest.TestCase):
         mock_create_md5.return_value = 'same_md5Sum'
         mock_json.loads.return_value = [{'md5Sum': 'same_md5Sum'}]
         upload_process(process_name, self.generated_filename, self.save_path, 'data_type', 'data_sub_type', self.config_info)
-
+ 
     @unittest.mock.patch('upload.upload.json')
     @unittest.mock.patch('upload.upload.urllib.request')
     @unittest.mock.patch('upload.upload.upload_file')
@@ -151,7 +194,7 @@ class TestFerret(unittest.TestCase):
         mock_json.loads.return_value = [{'md5Sum': 'existing_dummy'}]
         upload_process(process_name, self.generated_filename, self.save_path, 'data_type', 'data_sub_type', self.config_info)
         mock_upload_file.assert_called()
-
+ 
     @unittest.mock.patch('upload.upload.json')
     @unittest.mock.patch('upload.upload.urllib.request')
     @unittest.mock.patch('upload.upload.upload_file')
@@ -162,39 +205,39 @@ class TestFerret(unittest.TestCase):
         mock_json.loads.return_value = [{'NO-md5Sum': 'existing_dummy'}]
         upload_process(process_name, self.generated_filename, self.save_path, 'data_type', 'data_sub_type', self.config_info)
         mock_upload_file.assert_called()
-
+ 
     @unittest.mock.patch('compression.compression.os')
     def test_mock_compression_compression_gunzip_file(self, mock_os):
         gunzip_file(**self.kwargs)
         mock_os.system.assert_called()
-
+ 
     @unittest.mock.patch('compression.compression.os')
     def test_mock_compression_compression_unzip_file(self, mock_os):
         unzip_file(**self.kwargs)
         mock_os.system.assert_called()
-
+ 
     @unittest.mock.patch('compression.compression.logger')
     def test_mock_compression_compression_logger(self, mock_logger):
         no_compression(**self.kwargs)
         mock_logger.info.assert_called_with('{}: Skipping decompression for {}.'.format(self.kwargs['worker'], self.kwargs['filename']))
-
+ 
     @unittest.mock.patch('compression.compression.gunzip_file')
     def test_mock_compression_compression_decompress_gunzip_file(self, mock_gunzip_file):
         decompress('worker', 'filename.gz', 'savepath')
         mock_gunzip_file.assert_called()
-
+ 
     @unittest.mock.patch('compression.compression.unzip_file')
     def test_mock_compression_compression_decompress_unzip_file(self, mock_unzip_file):
         decompress('worker', 'filename.zip', 'savepath')
         mock_unzip_file.assert_called()
-
+ 
     @unittest.mock.patch('compression.compression.no_compression')
     def test_mock_compression_compression_decompress_no_compression(self, mock_no_compression):
         decompress('worker', 'filename', 'savepath')
         mock_no_compression.assert_called()
-
-
-
+ 
+ 
+ 
     # live tests
     # test create_md5 function off of a file created in the filesystem by this module's setUp 
     def test_generated_upload_create_md5(self):
