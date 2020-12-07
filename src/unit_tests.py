@@ -158,6 +158,13 @@ class TestFerret(unittest.TestCase):
         did_everything_pass = ProcessManager(dataset_info, config_info).start_processes()
         mock_app_multiprocessing_pool.assert_called()
 
+    @unittest.mock.patch('sys.exit')
+    @unittest.mock.patch('cerberus.Validator.validate', return_value=False)
+    def test_mock_app_file_manager(self, mock_validate, mock_sys_exit):
+        process_name = 'unittest_mock_app_file_manager'
+        dataset_info = FileManager().return_datasets()  # Initialize our datasets from the dataset files.
+        mock_sys_exit.assert_called_with(-1)
+
     @unittest.mock.patch('download.download_module.urllib.request')
     def test_mock_download(self, mock_urllib_request):
         process_name = 'unittest_mock_download_process'
