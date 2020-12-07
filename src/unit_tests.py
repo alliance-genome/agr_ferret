@@ -149,6 +149,15 @@ class TestFerret(unittest.TestCase):
         pool.close()
         pool.join()
 
+    @unittest.mock.patch('multiprocessing.Pool')
+    @unittest.mock.patch('app.process_files')
+    def test_mock_app_process_manager_start_processes(self, mock_app_process_files, mock_app_multiprocessing_pool):
+        process_name = 'unittest_mock_app_process_manager_start_processes'
+        config_info = ContextInfo()
+        dataset_info = [1, 2]
+        did_everything_pass = ProcessManager(dataset_info, config_info).start_processes()
+        mock_app_multiprocessing_pool.assert_called()
+
     @unittest.mock.patch('download.download_module.urllib.request')
     def test_mock_download(self, mock_urllib_request):
         process_name = 'unittest_mock_download_process'
