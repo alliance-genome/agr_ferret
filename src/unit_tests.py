@@ -18,8 +18,6 @@ import logging, coloredlogs, yaml, os, sys, urllib3, requests
 import multiprocessing, time, glob, argparse
 import unittest, unittest.mock
 
-import argparse
-
 from download.download_module import download
 from upload.upload import create_md5, upload_file, upload_process
 from compression.compression import gunzip_file, unzip_file, no_compression, decompress
@@ -131,21 +129,23 @@ class TestFerret(unittest.TestCase):
         process_files(dataset, shared_list, finished_list, None)
         mock_app_upload_process.assert_called()
 
-# Not sure how to test for app.py process_files 'elif url in shared_list', because it has a sleep loop to wait
-# for a process. 
-#     @unittest.mock.patch('time.sleep')
-#     @unittest.mock.patch('app.download')
-#     @unittest.mock.patch('app.upload_process')
-#     def test_mock_process_files_shared_list(self, mock_app_upload_process, mock_app_download, mock_time):
-#         process_name = 'unittest_mock_process_files_shared_list'
-#         dataset = {'status': 'active', 'url': 'url', 'filename': 'filename', 'type': 'datatype', 'subtype': 'datasubtype'}
-#         manager = multiprocessing.Manager()
-#         shared_list = manager.list()  	# A shared list to track downloading URLs.
-#         finished_list = manager.list() 	# A shared list of finished URLs.
-#         shared_list.append(dataset['url'])
-#         process_files(dataset, shared_list, finished_list, None)
-#         finished_list.append(dataset['url'])
-#         mock_app_upload_process.assert_called()
+    @unittest.mock.patch('time.sleep')
+    @unittest.mock.patch('app.download')
+    @unittest.mock.patch('app.upload_process')
+    def test_mock_process_files_shared_list(self, mock_app_upload_process, mock_app_download, mock_time_sleep):
+        process_name = 'unittest_mock_process_files_shared_list'
+        dataset = {'status': 'active', 'url': 'url', 'filename': 'filename', 'type': 'datatype', 'subtype': 'datasubtype'}
+        pool = multiprocessing.Pool(processes=2)  # Create our pool.
+        manager = multiprocessing.Manager()
+        shared_list = manager.list()            # A shared list to track downloading URLs.
+        finished_list = manager.list()          # A shared list of finished URLs.
+        shared_list.append(dataset['url'])
+        pool.apply_async( process_files, (dataset, shared_list, finished_list, None))
+        finished_list.append(dataset['url'])
+        pool.apply_async( process_files, (dataset, shared_list, finished_list, None))
+        pool.close()
+        pool.join()
+        mock_time_sleep.assert_called()
 
     @unittest.mock.patch('download.download_module.urllib.request')
     def test_mock_download(self, mock_urllib_request):
