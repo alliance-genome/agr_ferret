@@ -83,6 +83,7 @@ class TestFerret(unittest.TestCase):
     def test_mock_app_main(self, mock_process_manager, mock_file_manager, mock_context_info):
         process_name = 'unittest_mock_app_main'
         main()
+        mock_process_manager.assert_called()
 
     @unittest.mock.patch('sys.exit')
     @unittest.mock.patch('app.ContextInfo')
@@ -91,6 +92,7 @@ class TestFerret(unittest.TestCase):
     def test_mock_app_main_sys_exit(self, mock_process_manager, mock_file_manager, mock_context_info, mock_sys_exit):
         process_name = 'unittest_mock_app_main_sys_exit'
         main()
+        mock_sys_exit.assert_called_with(-1)
 
     @unittest.mock.patch('app.download')
     @unittest.mock.patch('app.upload_process')
