@@ -22,14 +22,7 @@ from download.download_module import download
 from upload.upload import create_md5, upload_file, upload_process
 from compression.compression import gunzip_file, unzip_file, no_compression, decompress
 
-# from download import *
-# from upload import *
-# from compression import *
-
 from app import main, ContextInfo, ProcessManager, FileManager, process_files
-
-# from download import *
-# from upload import *
 
 
 class TestFerret(unittest.TestCase):
@@ -41,42 +34,13 @@ class TestFerret(unittest.TestCase):
     config_info = ContextInfo()
     kwargs = {'worker': 'worker', 'filename': 'filename', 'savepath': 'savepath', 'file_suffix': 'file_suffix'}
 
-# # new
-#     manager = multiprocessing.Manager()
-#     shared_list = manager.list()  # A shared list to track downloading URLs.
-#     finished_list = manager.list()  # A shared list of finished URLs.
-
-#     dataset_info = FileManager().return_datasets()
-#     process_manager = ProcessManager(dataset_info, config_info)
-# 
-# # end new
-
-
     def setUp(self):
         # create a file in filesystem to test create_md5 function
         with open(self.tmp_generated_filepath, "w") as f:
             f.write("Delete me!")
 
-    # in progress
-# #     @unittest.mock.patch('app.process_files')
-# #     @unittest.mock.patch('upload.upload.json')
-# #     @unittest.mock.patch('upload.upload.urllib.request')
-# #     @unittest.mock.patch('upload.upload_module.upload_process')
-# 
-# #     @unittest.mock.patch('app.upload_process')
-# # this doesn't work, NameError: name 'upload_process' is not defined
-#     @unittest.mock.patch('app.download')
-#     def test_mock_process_files(self, mock_app_download):
-# #     def test_mock_process_files(self, mock_app_download, mock_app_upload_process):
-#         process_name = 'unittest_mock_process_files'
-#         dataset = self.dataset_info[0]
-#         process_files(dataset, self.shared_list, self.finished_list, self.config_info)
-# #         upload_process(process_name, self.generated_filename, self.save_path, 'data_type', 'data_sub_type', self.config_info)
-# #         mock_urllib_request.urlopen.assert_called()
-# #         mock_json.loads.assert_called()
 
     # mock tests
-
     @unittest.mock.patch('app.ContextInfo')
     @unittest.mock.patch('app.FileManager.return_datasets')
     @unittest.mock.patch('app.ProcessManager.start_processes', return_value=True)
