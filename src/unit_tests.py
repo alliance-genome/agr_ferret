@@ -26,7 +26,7 @@ from compression.compression import gunzip_file, unzip_file, no_compression, dec
 # from upload import *
 # from compression import *
 
-from app import ContextInfo, ProcessManager, FileManager, process_files
+from app import main, ContextInfo, ProcessManager, FileManager, process_files
 
 # from download import *
 # from upload import *
@@ -76,6 +76,22 @@ class TestFerret(unittest.TestCase):
 # #         mock_json.loads.assert_called()
 
     # mock tests
+
+    @unittest.mock.patch('app.ContextInfo')
+    @unittest.mock.patch('app.FileManager.return_datasets')
+    @unittest.mock.patch('app.ProcessManager.start_processes', return_value=True)
+    def test_mock_app_main(self, mock_process_manager, mock_file_manager, mock_context_info):
+        process_name = 'unittest_mock_app_main'
+        main()
+
+    @unittest.mock.patch('sys.exit')
+    @unittest.mock.patch('app.ContextInfo')
+    @unittest.mock.patch('app.FileManager.return_datasets')
+    @unittest.mock.patch('app.ProcessManager.start_processes', return_value=False)
+    def test_mock_app_main_sys_exit(self, mock_process_manager, mock_file_manager, mock_context_info, mock_sys_exit):
+        process_name = 'unittest_mock_app_main_sys_exit'
+        main()
+
     @unittest.mock.patch('app.download')
     @unittest.mock.patch('app.upload_process')
     def test_mock_process_files(self, mock_app_upload_process, mock_app_download):
