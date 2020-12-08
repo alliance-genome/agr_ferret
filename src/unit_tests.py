@@ -124,9 +124,15 @@ class TestFerret(unittest.TestCase):
 
     @unittest.mock.patch('sys.exit')
     @unittest.mock.patch('cerberus.Validator.validate', return_value=False)
-    def test_mock_app_file_manager(self, mock_validate, mock_sys_exit):
-        process_name = 'unittest_mock_app_file_manager'
+    def test_mock_app_file_manager_return_datasets(self, mock_validate, mock_sys_exit):
+        process_name = 'unittest_mock_app_file_manager_return_datasets'
         dataset_info = FileManager().return_datasets()
+        mock_sys_exit.assert_called_with(-1)
+
+    @unittest.mock.patch('sys.exit')
+    @unittest.mock.patch('cerberus.Validator.validate', return_value=False)
+    def test_mock_app_file_manager_return_all_dataset_data(self, mock_validate, mock_sys_exit):
+        process_name = 'unittest_mock_app_file_manager_return_all_dataset_data'
         combined_list_of_dicts = FileManager().return_all_dataset_data()  
         mock_sys_exit.assert_called_with(-1)
 
