@@ -126,7 +126,8 @@ class TestFerret(unittest.TestCase):
     @unittest.mock.patch('cerberus.Validator.validate', return_value=False)
     def test_mock_app_file_manager(self, mock_validate, mock_sys_exit):
         process_name = 'unittest_mock_app_file_manager'
-        dataset_info = FileManager().return_datasets()  # Initialize our datasets from the dataset files.
+        dataset_info = FileManager().return_datasets()
+        combined_list_of_dicts = FileManager().return_all_dataset_data()  
         mock_sys_exit.assert_called_with(-1)
 
     @unittest.mock.patch('download.download_module.urllib.request')
