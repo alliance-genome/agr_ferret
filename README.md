@@ -21,3 +21,7 @@ Optional flags:
 - YAML files in the `datasets` folder are grouped by data provider. For example, the `MOD_FlyBase.yaml` file contains all datasets provided by FlyBase as a list. 
 - When adding new values for YAML `ids` (the value at the very top of each YAML dataset file), `compression`, `data types`, or `data subtypes`, be sure to edit the validation file in `src/validation/validation.yaml` to allow these entries.
 - Downloaded files are stored in the `files` folder. Files from previous runs are overwritten each time if the relevant dataset is processed.
+
+## Writing Unit Tests
+- Unit tests are required for all appropriate functions within this repository.
+- Please see src/unit_tests.py for more information and examples of tests.
