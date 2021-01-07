@@ -108,3 +108,9 @@ venv.bak/
  
 # downloaded filed
 src/files/*
+
+# coverage
+.coverage
+
+# PyCharm
+.idea

@@ -3,7 +3,6 @@
 import logging, os, requests, json, hashlib, urllib
 from requests_toolbelt.utils import dump
 from retry import retry
-from app import ContextInfo
 
 logger = logging.getLogger(__name__)
 

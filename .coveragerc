@@ -1,0 +1,15 @@
+# The following [run] and [paths] settings are required for coveralls.io
+# Docker and Travis contain different directory structures.
+# Coverage runs within Docker but coveralls is installed within Travis.
+# We use coverage's "combine" function to merge the two directory structures.
+# Without this approach, coverall errors because it's "confused" with the path differences between Docker and Travis.
+
+[run]
+source = src
+parallel = True
+data_file = coverage_output/.coverage
+
+[paths]
+source =
+  src/
+  /usr/src/app/src/

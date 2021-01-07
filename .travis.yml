@@ -1,0 +1,32 @@
+language: python
+python:
+    - "3.6"
+
+services:
+  - docker
+
+cache: pip
+
+before_install:
+  - mkdir volume_mount
+  - pip install awscli # Install AWS cli
+  - export PATH=$PATH:$HOME/.local/bin # Add aws to the path.
+  # Check that we can login. Requires AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY environmental variables.
+  # These are set in the Travis settings.
+  - eval $(aws ecr get-login --region us-east-1 --no-include-email)
+  - docker build -t ferret .
+
+script:
+  # Run the ferret unit tests and mount a volume for gathering the coverage_output
+  - docker run -v ferret_output:/usr/src/app/coverage_output -t ferret coverage run src/unit_tests.py
+
+after_success:
+  - pip install pyyaml coveralls
+  # Copy the coverage results file from the Docker container to Travis.
+  - ./docker-volume-cp ferret_output:. /home/travis/build/alliance-genome/agr_ferret/
+  # Merge the source paths between the newly copied coverage file (from Docker) and and the local paths on Travis.
+  # This is required to enable coveralls to "understand" our directory structure properly.
+  # Otherwise it will return an error because our Docker directory structure is different than Travis.
+  - coverage combine /home/travis/build/alliance-genome/agr_ferret/
+  # Upload to coveralls.
+  - coveralls
