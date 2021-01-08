@@ -2,7 +2,7 @@ version: "3.2"
 
 services:
   agr_ferret:
-    image: agrdocker/agr_ferret_run:latest
+    image: ${REG}/agr_ferret_run:latest
     volumes:
       - type: volume
         source: agr_data_share
