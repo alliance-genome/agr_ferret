@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.com/alliance-genome/agr_ferret.svg?branch=master)](https://travis-ci.com/alliance-genome/agr_ferret)
-[![Coverage Status](https://coveralls.io/repos/github/alliance-genome/agr_ferret/badge.svg?branch=AGR-1606)](https://coveralls.io/github/alliance-genome/agr_ferret?branch=AGR-1606)
+[![Coverage Status](https://coveralls.io/repos/github/alliance-genome/agr_ferret/badge.svg?branch=master)](https://coveralls.io/github/alliance-genome/agr_ferret?branch=master)
 # agr_ferret
 pre-ETL data fetching software for the Alliance of Genome Resources.
 
