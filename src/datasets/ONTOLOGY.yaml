@@ -131,6 +131,14 @@ datasets:
     subtype: MA
     status: active
   -
+    id: MI
+    filename: psi-mi.obo
+    url: http://purl.obolibrary.org/obo/mi.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: MI
+    status: active
+  -
     id: MMO
     filename: mmo.obo
     url: http://purl.obolibrary.org/obo/mmo.obo
