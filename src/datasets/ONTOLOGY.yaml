@@ -133,7 +133,7 @@ datasets:
   -
     id: MI
     filename: psi-mi.obo
-    url: http://purl.obolibrary.org/obo/mi.obo
+    url: https://raw.githubusercontent.com/HUPO-PSI/psi-mi-CV/master/psi-mi.obo
     filetype: obo
     type: ONTOLOGY
     subtype: MI
