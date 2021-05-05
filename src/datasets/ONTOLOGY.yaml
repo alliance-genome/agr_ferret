@@ -219,6 +219,14 @@ datasets:
     subtype: WBPhenotype
     status: active
   -
+    id: ZECO
+    filename: zeco.obo
+    url: http://purl.obolibrary.org/obo/zeco.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: ZECO
+    status: active
+  -
     id: ZFA
     filename: zfa.obo
     url: http://purl.obolibrary.org/obo/zfa.obo

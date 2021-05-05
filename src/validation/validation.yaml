@@ -45,4 +45,6 @@ datasets:
       subtype: 
         type: string
         required: True
-        allowed: [ZFIN, RGD, SGD, MGI, WB, HUMAN, FB, ZFA, ZFS, GO, MI, MMO, UBERON, ECO, WBBT, FBBT, MA, CL, DOID, MMUSDV, EMAPA, BSPO, FBCV, SO, WBLS, ECOMAP, MI, IMEX, HP, MP, APO, WBPhenotype, PATO, DPO, FYPO, OBI, CHEBI, BTO, BIOGRID, BIOGRID-TAB]
+        allowed: [ZFIN, RGD, SGD, MGI, WB, HUMAN, FB, APO, BIOGRID, BIOGRID-TAB, BSPO, BTO, CHEBI, CL,
+                  DOID, DPO, ECO, ECOMAP, EMAPA, FBBT, FBCV, FYPO, GO, HP, IMEX, MA, MI, MI, MMO, MMUSDV, MP,
+                  OBI, PATO, SO, UBERON, WBBT, WBLS, WBPhenotype, ZECO, ZFA, ZFS]
