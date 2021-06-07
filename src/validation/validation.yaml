@@ -2,10 +2,6 @@ id:
   type: string
   required: True
   allowed: [FB, WB, ONTOLOGY, GAF, GENEEEXPRESSIONATLASSITEMAP, GEOXREF, IMEX, BIOGRID]
-contact_email:
-  type: string
-  required: True
-  regex: ^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$
 project_url:
   type: string
   required: True
