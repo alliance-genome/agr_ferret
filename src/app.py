@@ -1,9 +1,10 @@
-import logging, coloredlogs, yaml, os, sys, urllib3, requests
+import logging, coloredlogs, yaml, os, sys, urllib3, requests, json
 import multiprocessing, time, glob, argparse
 from download import *
 from upload import *
 from compression import *
 from cerberus import Validator
+import traceback
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-f", "--files", type=argparse.FileType('r'), nargs='*',
@@ -37,6 +38,7 @@ coloredlogs.install(level=debug_level,
 
 logging.getLogger("urllib3").setLevel(debug_level)
 logger = logging.getLogger(__name__)
+http = urllib3.PoolManager()
 
 
 class FileManager(object):
@@ -118,31 +120,29 @@ class ProcessManager(object):
     def __init__(self, dataset_info, config_info):
         self.dataset_info = dataset_info  # Datasets with downloadable information.
         self.process_count = config_info.config['threads']  # Number of processes to create.
-        self.emails = config_info.config['notification_emails']  # List of email accounts to notify on failure.
         self.config_info = config_info  # Bring along our configuration values for later functions.
         self.set_false_when_failed = True # If any process fails, set this to False.
 
+        self.pool = multiprocessing.Pool(processes=self.process_count)  # Create our pool.
+
     def worker_error(self, e):
-        # If we encounter an Exception from one of our workers, terminate the pool and exit immediately.
-        # TODO Put email logic here.
-        self.pool.terminate()
+        # If we encounter an Exception from one of our workers, log the error.
         logger.error(e)
+        self.error_list.append(e)
         self.set_false_when_failed = False
 
     def start_processes(self):
         manager = multiprocessing.Manager()
         shared_list = manager.list()  # A shared list to track downloading URLs.
         finished_list = manager.list()  # A shared list of finished URLs.
-
-        self.pool = multiprocessing.Pool(processes=self.process_count)  # Create our pool.
-
+        self.error_list = manager.list() # A shared list of errors. We can't pass this to worker_error so it's "self."
         # Send off all our datasets to the process_files function.
-        [self.pool.apply_async(process_files, (x, shared_list, finished_list, self.config_info),
+        multiple_results = [self.pool.apply_async(process_files, (x, shared_list, finished_list, self.config_info),
                                error_callback=self.worker_error) for x in self.dataset_info]
         self.pool.close()
         self.pool.join()
 
-        return self.set_false_when_failed
+        return self.set_false_when_failed, shared_list, self.error_list
 
 
 # Common configuration variables used throughout the script.
@@ -162,19 +162,41 @@ class ContextInfo(object):
                 pass  # If we don't find an ENV variable, keep the value from the config file.
         
         logger.debug('Initialized with config values: {}'.format(self.config))
-        logger.info('Retrieval errors will be emailed to: {}'.format(self.config['notification_emails']))            
 
+
+def post_to_slack(msg):
+    config_info = ContextInfo()
+    slack_url_component = config_info.config["SLACK_HOOK"]
+
+    url = "https://hooks.slack.com/services/{}".format(slack_url_component)
+
+    mesg = {
+        "channel": "#system-alerts",
+        "username": "Ferret",
+        "text": msg,
+        "icon_emoji": ":ferret:"
+    }
+
+    http.request('POST', url, body=json.dumps(mesg).encode('utf-8'))
 
 def main():
 
     config_info = ContextInfo()  # Initialize our configuration values.
     dataset_info = FileManager().return_datasets()  # Initialize our datasets from the dataset files.
     # Begin processing datasets with the ProcessManager.
-    did_everything_pass = ProcessManager(dataset_info, config_info).start_processes()
+    did_everything_pass, shared_list, error_list= ProcessManager(dataset_info, config_info).start_processes()
 
     if did_everything_pass is False:
-        sys.exit(-1)
-
+        failure_message_for_slack = 'When running Ferret, one or more data sources failed to be fetched:\n'
+        logger.error('One or more data sources failed to be fetched:')
+        for url, error_item in zip(shared_list, error_list):
+            # Items that fail will not be removed from the shared_list.
+            # Therefore, the shared_list also serves as an "URL error list" in that regard.
+            # It *should* match up 1-to-1 for the failed pool processes (the error_list here).
+            # If ever the errors do not match up 1-to-1 with the failed URLs, then this assumption is not true.
+            logger.error('URL: {} --> Error: {}'.format(url, error_item))
+            failure_message_for_slack += 'URL: {} --> Error: {}\n'.format(url, error_item)
+        post_to_slack(failure_message_for_slack)
 
 if __name__ == '__main__':
     main()
