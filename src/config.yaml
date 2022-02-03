@@ -4,5 +4,5 @@ threads: 1
 # Default environmental variables.
 API_KEY: # Defaults to "None" if it cannot be found in the environment.
 FMS_API_URL: https://fmsdev.alliancegenome.org
-ALLIANCE_RELEASE: 4.1.0
+ALLIANCE_RELEASE: 0.0.0 # This should NOT be set... pass it via the command line (ENV) if you are running it locally
 SLACK_HOOK: # Defaults to "None" if it cannot be found in the environment.
