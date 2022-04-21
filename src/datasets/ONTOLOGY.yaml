@@ -218,6 +218,38 @@ datasets:
     subtype: WBPhenotype
     status: active
   -
+    id: XAO
+    filename: xao.obo
+    url: http://purl.obolibrary.org/obo/xao.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: XAO
+    status: active
+  -
+    id: XBED
+    filename: xbed.obo
+    url: https://gitlab.com/Xenbase/xenbase-experimental-data-ontology/-/raw/master/xenbase_experimental_data.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: XBED
+    status: active
+  -
+    id: XPO
+    filename: xpo.obo
+    url: http://purl.obolibrary.org/obo/xpo.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: XPO
+    status: active
+  -
+    id: XSMO
+    filename: xsmo.obo
+    url: https://gitlab.com/Xenbase/Small-molecules/-/raw/master/xsmo.obo
+    filetype: obo
+    type: ONTOLOGY
+    subtype: XSMO
+    status: active
+  -
     id: ZECO
     filename: zeco.obo
     url: http://purl.obolibrary.org/obo/zeco.obo
