@@ -2,7 +2,7 @@ name: Test Build Docker image
 on:
   push:
   branches:
-    - SCRUM-912
+    - master
 
 jobs:
   build-docker-image:
