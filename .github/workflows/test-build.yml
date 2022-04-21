@@ -1,0 +1,17 @@
+name: Test Build Docker image
+on:
+  push:
+  branches:
+    - master
+
+jobs:
+  build-docker-image:
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+    - run: git fetch --prune --unshallow
+    - name: Build Docker image
+      run: |
+        docker build -t ferret .
+        docker run -t ferret coverage run src/unit_tests.py
