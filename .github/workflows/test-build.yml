@@ -30,4 +30,6 @@ jobs:
     - name: Build Docker image
       run: |
         docker build -t ferret .
+    - name: Run Docker image
+      run: |
         docker run -t ferret coverage run src/unit_tests.py
