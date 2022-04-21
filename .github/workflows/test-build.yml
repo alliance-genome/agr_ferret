@@ -11,6 +11,22 @@ jobs:
     - name: Check out repository code
       uses: actions/checkout@v2
     - run: git fetch --prune --unshallow
+    - name: Declare some variables
+      id: vars
+      shell: bash
+      run: |
+        echo "##[set-output name=tagname;]$(git describe)"
+    # This step will configure environment variables to be used by all steps
+    # involving AWS interaction further down
+    - name: AWS credentials configuration
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    - name: Amazon ECR login
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
     - name: Build Docker image
       run: |
         docker build -t ferret .
