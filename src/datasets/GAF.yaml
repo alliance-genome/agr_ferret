@@ -63,3 +63,11 @@ datasets:
     type: GAF
     subtype: HUMAN
     status: active
+  -
+    id: Xenbase
+    filename: xenbase.EBI.only.2.2.gaf
+    url: https://ftp.xenbase.org/pub/DataExchange/GO/xenbase.EBI.only.2.2.gaf.gz
+    filetype: gaf
+    type: GAF
+    subtype: Xenbase
+    status: active
