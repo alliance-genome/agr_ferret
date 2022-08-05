@@ -64,10 +64,10 @@ datasets:
     subtype: HUMAN
     status: active
   -
-    id: Xenbase
+    id: XB
     filename: xenbase.EBI.only.2.2.gaf
     url: https://ftp.xenbase.org/pub/DataExchange/GO/xenbase.EBI.only.2.2.gaf.gz
     filetype: gaf
     type: GAF
-    subtype: Xenbase
+    subtype: XB
     status: active
