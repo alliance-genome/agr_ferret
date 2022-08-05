@@ -43,4 +43,4 @@ datasets:
         required: True
         allowed: [ZFIN, RGD, SGD, MGI, WB, HUMAN, FB, APO, BIOGRID, BIOGRID-TAB, BSPO, BTO, CHEBI, CL,
                   DOID, DPO, ECO, ECOMAP, EMAPA, FBBT, FBCV, FYPO, GO, HP, IMEX, MA, MI, MI, MMO, MMUSDV, MP,
-                  OBI, PATO, SO, UBERON, WBBT, WBLS, WBPhenotype, XAO, XBED, XPO, XSMO, ZECO, ZFA, ZFS]
+                  OBI, PATO, SO, UBERON, WBBT, WBLS, WBPhenotype, XAO, XB, XBED, XPO, XSMO, ZECO, ZFA, ZFS]
