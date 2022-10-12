@@ -65,8 +65,8 @@ datasets:
     status: active
   -
     id: XB
-    filename: xenbase.EBI.only.2.2.gaf
-    url: https://ftp.xenbase.org/pub/DataExchange/GO/xenbase.EBI.only.2.2.gaf.gz
+    filename: xenbase.gaf.gz
+    url: http://current.geneontology.org/annotations/xenbase.gaf.gz
     filetype: gaf
     type: GAF
     subtype: XB
