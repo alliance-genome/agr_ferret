@@ -267,7 +267,7 @@ datasets:
     status: active
   -
     id: ZFS
-    filename: zfs.obo
+    filename: zfa.obo
     url: http://purl.obolibrary.org/obo/zfa.obo
     filetype: obo
     type: ONTOLOGY
