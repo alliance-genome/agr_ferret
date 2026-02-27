@@ -123,8 +123,8 @@ datasets:
     status: active
   -
     id: MA
-    filename: adult_mouse_anatomy.obo
-    url: http://www.informatics.jax.org/downloads/reports/adult_mouse_anatomy.obo
+    filename: ma.obo
+    url: http://purl.obolibrary.org/obo/ma.obo
     filetype: obo
     type: ONTOLOGY
     subtype: MA
