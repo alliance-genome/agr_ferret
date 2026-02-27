@@ -85,6 +85,15 @@ class FileManager(object):
 
 
 def process_files(dataset, shared_list, finished_list, config_info):
+    try:
+        _process_files(dataset, shared_list, finished_list, config_info)
+    except Exception as e:
+        # Re-raise as a plain Exception so multiprocessing can pickle it.
+        # urllib HTTPError contains a BufferedReader which is not picklable.
+        raise Exception('{}: {}'.format(type(e).__name__, e)) from None
+
+
+def _process_files(dataset, shared_list, finished_list, config_info):
     process_name = multiprocessing.current_process().name
     url = dataset['url']
     data_type = dataset['type']
