@@ -27,7 +27,7 @@ datasets:
     status: active
   -
     id: BIOGRID-ORCS-MGI
-    filename: BIOGRID-ORCS-ALL-drosophila_melanogaster-LATEST.screens.tar.gz
+    filename: BIOGRID-ORCS-ALL-mus_musculus-LATEST.screens.tar.gz
     url: https://downloads.thebiogrid.org/Download/BioGRID-ORCS/Latest-Release/BIOGRID-ORCS-ALL-mus_musculus-LATEST.screens.tar.gz
     filetype: tar.gz
     type: BIOGRID-ORCS
@@ -35,7 +35,7 @@ datasets:
     status: active
   -
     id: BIOGRID-ORCS-HUMAN
-    filename: BIOGRID-ORCS-ALL-drosophila_melanogaster-LATEST.screens.tar.gz
+    filename: BIOGRID-ORCS-ALL-homo_sapiens-LATEST.screens.tar.gz
     url: https://downloads.thebiogrid.org/Download/BioGRID-ORCS/Latest-Release/BIOGRID-ORCS-ALL-homo_sapiens-LATEST.screens.tar.gz
     filetype: tar.gz
     type: BIOGRID-ORCS

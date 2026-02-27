@@ -155,7 +155,7 @@ datasets:
     status: active
   -
     id: MP
-    filename: .obo
+    filename: mp.obo
     url: http://purl.obolibrary.org/obo/mp.obo
     filetype: obo
     type: ONTOLOGY
@@ -188,7 +188,7 @@ datasets:
   -
     id: UBERON
     filename: basic.obo
-    url: http://ontologies.berkeleybop.org/uberon/basic.obo
+    url: http://purl.obolibrary.org/obo/uberon/basic.obo
     filetype: obo
     type: ONTOLOGY
     subtype: UBERON
@@ -268,7 +268,7 @@ datasets:
   -
     id: ZFS
     filename: zfs.obo
-    url: http://purl.obolibrary.org/obo/zfs.obo
+    url: http://purl.obolibrary.org/obo/zfa.obo
     filetype: obo
     type: ONTOLOGY
     subtype: ZFS
