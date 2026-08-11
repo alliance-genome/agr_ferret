@@ -3,54 +3,54 @@ project_url: alliancegenome.org
 datasets:
   -
     id: ZFIN
-    filename: zfin.gaf.gz
-    filename_uncompressed: zfin.gaf
-    url: http://current.geneontology.org/annotations/zfin.gaf.gz
+    filename: DANRE-mod.gaf.gz
+    filename_uncompressed: DANRE-mod.gaf
+    url: https://current.geneontology.org/annotations/gaf/DANRE-mod.gaf.gz
     filetype: gaf
     type: GAF
     subtype: ZFIN
     status: active
   -
     id: SGD
-    filename: sgd.gaf.gz
-    filename_uncompressed: sgd.gaf
-    url: http://current.geneontology.org/annotations/sgd.gaf.gz
+    filename: YEAST-mod.gaf.gz
+    filename_uncompressed: YEAST-mod.gaf
+    url: https://current.geneontology.org/annotations/gaf/YEAST-mod.gaf.gz
     filetype: gaf
     type: GAF
     subtype: SGD
     status: active
   -
     id: WB
-    filename: wb.gaf.gz
-    filename_uncompressed: wb.gaf
-    url: http://current.geneontology.org/annotations/wb.gaf.gz
+    filename: CAEEL-mod.gaf.gz
+    filename_uncompressed: CAEEL-mod.gaf
+    url: https://current.geneontology.org/annotations/gaf/CAEEL-mod.gaf.gz
     filetype: gaf
     type: GAF
     subtype: WB
     status: active
   -
     id: MGI
-    filename: mgi.gaf.gz
-    filename_uncompressed: mgi.gaf
-    url: http://current.geneontology.org/annotations/mgi.gaf.gz
+    filename: MOUSE-mod.gaf.gz
+    filename_uncompressed: MOUSE-mod.gaf
+    url: https://current.geneontology.org/annotations/gaf/MOUSE-mod.gaf.gz
     filetype: gaf
     type: GAF
     subtype: MGI
     status: active
   -
     id: FB
-    filename: fb.gaf.gz
-    filename_uncompressed: fb.gaf
-    url: http://current.geneontology.org/annotations/fb.gaf.gz
+    filename: DROME-mod.gaf.gz
+    filename_uncompressed: DROME-mod.gaf
+    url: https://current.geneontology.org/annotations/gaf/DROME-mod.gaf.gz
     filetype: gaf
     type: GAF
     subtype: FB
     status: active
   -
     id: RGD
-    filename: rgd.gaf.gz
-    filename_uncompressed: rgd.gaf
-    url: http://current.geneontology.org/annotations/rgd.gaf.gz
+    filename: RAT-mod.gaf.gz
+    filename_uncompressed: RAT-mod.gaf
+    url: https://current.geneontology.org/annotations/gaf/RAT-mod.gaf.gz
     filetype: gaf
     type: GAF
     subtype: RGD
@@ -64,10 +64,20 @@ datasets:
     subtype: HUMAN
     status: active
   -
-    id: XB
-    filename: xenbase.gaf.gz
-    url: http://current.geneontology.org/annotations/xenbase.gaf.gz
+    id: XBXL
+    filename: XENLA-mod.gaf.gz
+    filename_uncompressed: XENLA-mod.gaf
+    url: https://current.geneontology.org/annotations/gaf/XENLA-mod.gaf.gz
     filetype: gaf
     type: GAF
-    subtype: XB
+    subtype: XBXL
+    status: active
+  -
+    id: XBXT
+    filename: XENTR-mod.gaf.gz
+    filename_uncompressed: XENTR-mod.gaf
+    url: https://current.geneontology.org/annotations/gaf/XENTR-mod.gaf.gz
+    filetype: gaf
+    type: GAF
+    subtype: XBXT
     status: active
